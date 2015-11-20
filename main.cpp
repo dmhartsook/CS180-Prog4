@@ -1,29 +1,25 @@
 #include <iostream>
-#include "Vector.h"
 #include "Ray.h"
 #include "ImagePlane.h"
 
 
 int main(int argc, char** argv) {
-    const double eye[3] = {0.0, 0.0, 0.0};
-    const int imagePlaneSize = 640;
+    double eye[3] = {0.0, 0.0, 0.0};
+    const int imagePlaneSize = 10;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
+    for (int i = 0; i <= imagePlaneSize; i++) {
+        for (int j = 0; j <= imagePlaneSize; j++) {
+            double* pixel = imagePlane->getPixelCoords(i, j);
+            Ray* pixelRay = new Ray(eye, pixel);
+
+
+            delete pixelRay;
+            delete[] pixel;
+        }
+    }
+
     delete imagePlane;
-
-
-//    double vec[3] = {5.1, 5.0, 3};
-//    Vector* v = new Vector(vec);
-//    Vector* v2 = new Vector(3, 4, 5);
-//    v->print();
-//    std::cout << v->get(0) << std::endl;
-//
-//    v->subtract(v2);
-//    v->print();
-
-//    double start[3] = {1.0, 0.5, 0.25};
-//    Ray* ray = new Ray(start, vec);
-//    ray->print();
 
     return 0;
 }
