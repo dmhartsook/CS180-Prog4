@@ -1,5 +1,6 @@
 #include <iostream>
 #include <assert.h>
+#include <math.h>
 #include "Vector.h"
 
 Vector::Vector(double x, double y, double z) {
@@ -19,7 +20,9 @@ void Vector::print() const {
 }
 
 double Vector::length() const {
-    return (this->vector[0] + this->vector[1] + this->vector[2]) / 3.0;
+    return sqrt(this->vector[0] * this->vector[0]
+                + this->vector[1] * this->vector[1]
+                + this->vector[2] * this->vector[2]);
 }
 
 void Vector::normalize() {
@@ -38,4 +41,18 @@ void Vector::subtract(Vector *other) {
 double Vector::get(int i) const {
     assert(i < 3 && i >= 0);
     return this->vector[i];
+}
+
+double* Vector::toArray() {
+    double* array = new double[3];
+    array[0] = this->vector[0];
+    array[1] = this->vector[1];
+    array[2] = this->vector[2];
+    return array;
+}
+
+void Vector::dot(Vector *other) {
+    this->vector[0] *= other->get(0);
+    this->vector[1] *= other->get(1);
+    this->vector[2] *= other->get(2);
 }

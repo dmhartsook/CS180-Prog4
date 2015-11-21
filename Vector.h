@@ -13,10 +13,13 @@ public:
 
     void normalize();
     void subtract(Vector* other); // this = this - other
+    void dot(Vector* other); // this = this * other
 
     double length() const;
     double get(int) const;
 
+    // Creates a new double array with the values in the vector
+    double*toArray();
     void print() const;
 
 private:

@@ -6,7 +6,7 @@
 
 
 int main(int argc, char** argv) {
-    double eye[3] = {0.0, 0.0, 0.0};
+    Vector* eye = new Vector(0, 0, 0);
     const int imagePlaneSize = 10;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
@@ -16,11 +16,12 @@ int main(int argc, char** argv) {
     Sphere* sphere = new Sphere(*center, color, .5, 5);
     delete(center);
 
-    sphere->getCenter().print();
+    Vector* end = new Vector(0,0,-2);
+    Ray* ray = new Ray(*eye, *end);
+    delete end;
+    ray->print();
 
-    double end[3] = {0,0,-1};
-    Ray* ray = new Ray(eye, end);
-    if (sphere->intersect(ray)) {
+    if (sphere->intersect(*ray)) {
         std::cout << "intersection " << std::endl;
     } else {
         std::cout << "miss" << std::endl;
@@ -33,7 +34,9 @@ int main(int argc, char** argv) {
     for (int i = 0; i <= imagePlaneSize; i++) {
         for (int j = 0; j <= imagePlaneSize; j++) {
             double* pixel = imagePlane->getPixelCoords(i, j);
-            Ray* pixelRay = new Ray(eye, pixel);
+            Vector* pixelVector = new Vector(pixel);
+            Ray* pixelRay = new Ray(*eye, *pixelVector);
+            delete pixelVector;
 
 
             delete pixelRay;
@@ -42,7 +45,7 @@ int main(int argc, char** argv) {
     }
 
     delete imagePlane;
-
+    delete eye;
 
     return 0;
 }

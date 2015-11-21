@@ -6,6 +6,10 @@ Sphere::Sphere(Vector center, const RGB &color, double reflectivity, double radi
     this->radius = radius;
 }
 
-bool Sphere::intersect(Ray *ray) {
+
+
+bool Sphere::intersect(Ray d) {
+    d.normalize();
+    d.print();
     return false;
 }

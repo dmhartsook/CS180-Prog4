@@ -17,7 +17,7 @@ public:
     RGB getColor();
     Vector getCenter();
 
-    virtual bool intersect(Ray*) = 0;
+    virtual bool intersect(Ray) = 0;
 
 private:
     Vector* center;

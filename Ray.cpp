@@ -1,6 +1,5 @@
 #include "Ray.h"
 
-Ray::Ray(double * start, double *end) : Vector(end) {
-    Vector* startV = new Vector(start);
-    this->subtract(startV);
+Ray::Ray(Vector start, Vector end) : Vector(end.toArray()) {
+    this->subtract(&start);
 }
