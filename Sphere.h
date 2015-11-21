@@ -10,7 +10,9 @@
 
 class Sphere : public Object {
 public:
-    Sphere(double *center, const RGB &color, double reflectivity, double radius);
+    Sphere(Vector center, const RGB &color, double reflectivity, double radius);
+
+    bool intersect(Ray*);
 
 private:
     double radius;

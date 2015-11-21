@@ -25,7 +25,7 @@ private:
     // Offsets to center around z-axis
     static const double xOffset;
     static const double yOffset;
-    static const int zValue = 1;
+    static const int zValue = -1;
 
     RGB** imagePlane;
 };

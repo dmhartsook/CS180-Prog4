@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "Ray.h"
 #include "ImagePlane.h"
 #include "Sphere.h"
@@ -8,6 +9,26 @@ int main(int argc, char** argv) {
     double eye[3] = {0.0, 0.0, 0.0};
     const int imagePlaneSize = 10;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
+
+    RGB color;
+    color.red = 1; color.green = 0; color.blue = .9;
+    Vector* center = new Vector (0, 0, -10);
+    Sphere* sphere = new Sphere(*center, color, .5, 5);
+    delete(center);
+
+    sphere->getCenter().print();
+
+    double end[3] = {0,0,-1};
+    Ray* ray = new Ray(eye, end);
+    if (sphere->intersect(ray)) {
+        std::cout << "intersection " << std::endl;
+    } else {
+        std::cout << "miss" << std::endl;
+    }
+
+
+    std::vector<Object*> objects;
+    objects.push_back(sphere);
 
     for (int i = 0; i <= imagePlaneSize; i++) {
         for (int j = 0; j <= imagePlaneSize; j++) {
@@ -22,11 +43,6 @@ int main(int argc, char** argv) {
 
     delete imagePlane;
 
-    RGB color;
-    color.red = 1; color.green = 0; color.blue = .9;
-    Sphere* s = new Sphere(eye, color, .5, 5);
-    std::cout << s->getColor().red << ", " << s->getColor().green << ", " << s->getColor().blue << std::endl;
-    std::cout << s->getCenter()[0] << s->getCenter()[1] << s->getCenter()[2] << std::endl;
 
     return 0;
 }

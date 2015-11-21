@@ -6,18 +6,21 @@
 #define CS180_PROG4_OBJECT_H
 
 
+#include "Ray.h"
 #include "RGB.h"
 
 class Object {
 public:
-    Object(double *center, RGB color, double reflectivity);
-    virtual ~Object() { };
+    Object(Vector center, RGB color, double reflectivity);
+    virtual ~Object();
 
     RGB getColor();
-    double* getCenter();
+    Vector getCenter();
+
+    virtual bool intersect(Ray*) = 0;
 
 private:
-    double center[3];
+    Vector* center;
     RGB color;
     double reflectivity;
 };

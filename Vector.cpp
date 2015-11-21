@@ -1,4 +1,5 @@
 #include <iostream>
+#include <assert.h>
 #include "Vector.h"
 
 Vector::Vector(double x, double y, double z) {
@@ -35,5 +36,6 @@ void Vector::subtract(Vector *other) {
 }
 
 double Vector::get(int i) const {
+    assert(i < 3 && i >= 0);
     return this->vector[i];
 }
