@@ -10,8 +10,10 @@
 
 class Sphere : public Object {
 public:
-    Sphere(double *center, const RGB &color);
+    Sphere(double *center, const RGB &color, double reflectivity, double radius);
 
+private:
+    double radius;
 
 };
 

@@ -10,15 +10,16 @@
 
 class Object {
 public:
-    Object(double* center, RGB color);
-    virtual ~Object() {};
+    Object(double *center, RGB color, double reflectivity);
+    virtual ~Object() { };
 
     RGB getColor();
+    double* getCenter();
 
 private:
     double center[3];
     RGB color;
-
+    double reflectivity;
 };
 
 

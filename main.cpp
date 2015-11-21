@@ -24,8 +24,9 @@ int main(int argc, char** argv) {
 
     RGB color;
     color.red = 1; color.green = 0; color.blue = .9;
-    Sphere* s = new Sphere(eye, color);
+    Sphere* s = new Sphere(eye, color, .5, 5);
     std::cout << s->getColor().red << ", " << s->getColor().green << ", " << s->getColor().blue << std::endl;
+    std::cout << s->getCenter()[0] << s->getCenter()[1] << s->getCenter()[2] << std::endl;
 
     return 0;
 }
