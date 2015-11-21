@@ -7,13 +7,7 @@
 #ifndef CS180_PROG4_IMAGEPLANE_H
 #define CS180_PROG4_IMAGEPLANE_H
 
-typedef struct RGB {
-    double red;
-    double green;
-    double blue;
-} RGB;
-
-
+#include "RGB.h"
 
 class ImagePlane {
 public:

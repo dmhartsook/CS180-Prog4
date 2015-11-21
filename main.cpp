@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Ray.h"
 #include "ImagePlane.h"
+#include "Sphere.h"
 
 
 int main(int argc, char** argv) {
@@ -20,6 +21,11 @@ int main(int argc, char** argv) {
     }
 
     delete imagePlane;
+
+    RGB color;
+    color.red = 1; color.green = 0; color.blue = .9;
+    Sphere* s = new Sphere(eye, color);
+    std::cout << s->getColor().red << ", " << s->getColor().green << ", " << s->getColor().blue << std::endl;
 
     return 0;
 }
