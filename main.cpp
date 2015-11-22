@@ -12,8 +12,8 @@ int main(int argc, char** argv) {
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
     RGB* color = new RGB(1, 0, .9);
-    Vector* center = new Vector (0, 0, -10);
-    Sphere* sphere = new Sphere(center, color, .5, 5);
+    Vector* center = new Vector (0, 0, -5);
+    Sphere* sphere = new Sphere(center, color, .5, 1);
 
     std::vector<Object*> objects;
     objects.push_back(sphere);
@@ -26,13 +26,12 @@ int main(int argc, char** argv) {
 
             Vector* intersectionPoint = sphere->intersect(pixelRay);
             const RGB* color;
-//            if (intersectionPoint != nullptr) {
-//                std::cout << "intersection " << std::endl;
-//                intersectionPoint->print();
-//            } else {
-//                std::cout << "miss" << std::endl;
-//            }
+            if (intersectionPoint != nullptr) {
+                color = sphere->getColor();
+                imagePlane->setPixelColor(i, j, color);
+            }
 
+            delete intersectionPoint;
             delete pixelRay;
             delete[] pixel;
         }

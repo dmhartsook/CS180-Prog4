@@ -36,10 +36,15 @@ void ImagePlane::print() {
     std::cout << std::endl;
 }
 
-double* ImagePlane::getPixelCoords(int i, int j) {
+double* ImagePlane::getPixelCoords(int i, int j) const {
     double* pixel = new double[3];
     pixel[0] = ((double) i / (double) this->width) + xOffset;
     pixel[1] = ((double) j / (double) this->height) + yOffset;
     pixel[2] = this->zValue;
     return pixel;
+}
+
+void ImagePlane::setPixelColor(int j, int i, const RGB *newColor) {
+    RGB* color = this->imagePlane[i][j];
+    color->setColors(newColor->getRed(), newColor->getGreen(), newColor->getBlue());
 }

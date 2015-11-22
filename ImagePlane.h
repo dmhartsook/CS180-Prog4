@@ -14,8 +14,10 @@ public:
     ImagePlane(int px, int py);
     ~ImagePlane();
 
+    void setPixelColor(int j, int i, const RGB * color);
+
     // Converts the pixel at (i, j) into (x, y, z) coordinates
-    double*getPixelCoords(int i, int j);
+    double* getPixelCoords(int i, int j) const;
 
     void print();
 

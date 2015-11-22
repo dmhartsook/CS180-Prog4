@@ -11,6 +11,8 @@ public:
     RGB(double, double, double);
     RGB(const RGB&);
 
+    void setColors(double r, double g, double b);
+
     double getRed() const;
     double getGreen() const;
     double getBlue() const;

@@ -17,7 +17,10 @@ public:
     const RGB* getColor();
     const Vector* getCenter();
 
-    // Returns the closest collision point if there is one and NULL if there is no collision
+    /*
+     * Returns the closest collision point if there is one and NULL if there is no collision.
+     * This is a new Vector that will need to be deleted.
+     */
     virtual Vector * intersect(Ray *) = 0;
 
 private:

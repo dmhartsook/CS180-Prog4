@@ -23,3 +23,9 @@ double RGB::getGreen() const {
 double RGB::getBlue() const {
     return this->blue;
 }
+
+void RGB::setColors(double r, double g, double b) {
+    this->red = r;
+    this->green = g;
+    this->blue = b;
+}
