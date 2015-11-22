@@ -8,26 +8,25 @@ ImagePlane::ImagePlane(int px, int py) {
     this->width = px;
     this->height = py;
 
-    // Add 1 to arrays so can access [px][py]
-    this->imagePlane = new RGB **[this->width + 1];
-    for (int i = 0; i <= this->width; i++) {
-        this->imagePlane[i] = new RGB*[this->height + 1];
-        for (int j = 0; j <= this->height; j++) {
+    this->imagePlane = new RGB **[this->width];
+    for (int i = 0; i < this->width; i++) {
+        this->imagePlane[i] = new RGB*[this->height];
+        for (int j = 0; j < this->height; j++) {
             this->imagePlane[i][j] = new RGB(0, 0, 0);
         }
     }
 }
 
 ImagePlane::~ImagePlane() {
-    for (int i = 0; i <= this->width; i++) {
+    for (int i = 0; i < this->width; i++) {
         delete[] this->imagePlane[i];
     }
     delete[] this->imagePlane;
 }
 
-void ImagePlane::print() {
-    for (int i = 0; i <= this->width; i++) {
-        for (int j = 0; j <= this->height; j++) {
+void ImagePlane::print() const {
+    for (int i = 0; i < this->width; i++) {
+        for (int j = 0; j < this->height; j++) {
             RGB* rgb = this->imagePlane[i][j];
             std::cout << "(" << rgb->getRed() << ", " << rgb->getGreen() << ", " << rgb->getBlue() << ")  ";
         }
@@ -47,4 +46,16 @@ double* ImagePlane::getPixelCoords(int i, int j) const {
 void ImagePlane::setPixelColor(int j, int i, const RGB *newColor) {
     RGB* color = this->imagePlane[i][j];
     color->setColors(newColor->getRed(), newColor->getGreen(), newColor->getBlue());
+}
+
+int ImagePlane::getWidth() const {
+    return this->width;
+}
+
+int ImagePlane::getHeight() const {
+    return this->height;
+}
+
+const RGB *ImagePlane::getPixelColor(int i, int j) const {
+    return this->imagePlane[i][j];
 }

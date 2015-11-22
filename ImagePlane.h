@@ -18,8 +18,11 @@ public:
 
     // Converts the pixel at (i, j) into (x, y, z) coordinates
     double* getPixelCoords(int i, int j) const;
+    const RGB* getPixelColor(int i, int j) const;
+    int getWidth() const;
+    int getHeight() const;
 
-    void print();
+    void print() const;
 
 private:
     int width, height;

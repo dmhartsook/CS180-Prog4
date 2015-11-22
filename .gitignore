@@ -2,3 +2,6 @@
 CMakeLists.txt
 raytracer
 raytracer.dSYM/
+.DS_Store
+*.ppm
+*.png
