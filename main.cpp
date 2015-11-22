@@ -3,6 +3,7 @@
 #include "Ray.h"
 #include "ImagePlane.h"
 #include "Sphere.h"
+#include "RGB.h"
 
 
 int main(int argc, char** argv) {
@@ -10,11 +11,8 @@ int main(int argc, char** argv) {
     const int imagePlaneSize = 10;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
-    ImagePlane* wtf = NULL;
-
-    RGB color;
-    color.red = 1; color.green = 0; color.blue = .9;
-    Vector center = Vector (0, 0, -10);
+    RGB* color = new RGB(1, 0, .9);
+    Vector* center = new Vector (0, 0, -10);
     Sphere* sphere = new Sphere(center, color, .5, 5);
 
     std::vector<Object*> objects;
@@ -27,12 +25,13 @@ int main(int argc, char** argv) {
             Ray* pixelRay = new Ray(eye, pixelVector);
 
             Vector* intersectionPoint = sphere->intersect(pixelRay);
-            if (intersectionPoint != nullptr) {
-                std::cout << "intersection " << std::endl;
-                intersectionPoint->print();
-            } else {
-                std::cout << "miss" << std::endl;
-            }
+            const RGB* color;
+//            if (intersectionPoint != nullptr) {
+//                std::cout << "intersection " << std::endl;
+//                intersectionPoint->print();
+//            } else {
+//                std::cout << "miss" << std::endl;
+//            }
 
             delete pixelRay;
             delete[] pixel;

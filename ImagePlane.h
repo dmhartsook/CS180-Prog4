@@ -27,7 +27,7 @@ private:
     static const double yOffset;
     static const int zValue = -1;
 
-    RGB** imagePlane;
+    RGB*** imagePlane; // Ray* imagePlane[width][height]
 };
 
 

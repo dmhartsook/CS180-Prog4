@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 
-Sphere::Sphere(Vector center, const RGB &color, double reflectivity, double radius)
+Sphere::Sphere(const Vector *center, const RGB *color, double reflectivity, double radius)
         : Object(center, color, reflectivity) {
 
     this->radius = radius;

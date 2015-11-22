@@ -7,10 +7,11 @@
 
 
 #include "Object.h"
+#include "RGB.h"
 
 class Sphere : public Object {
 public:
-    Sphere(Vector center, const RGB &color, double reflectivity, double radius);
+    Sphere(const Vector *center, const RGB *color, double reflectivity, double radius);
 
     Vector * intersect(Ray *);
 

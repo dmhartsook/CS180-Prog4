@@ -9,9 +9,12 @@ ImagePlane::ImagePlane(int px, int py) {
     this->height = py;
 
     // Add 1 to arrays so can access [px][py]
-    this->imagePlane = new RGB*[this->width + 1];
+    this->imagePlane = new RGB **[this->width + 1];
     for (int i = 0; i <= this->width; i++) {
-        this->imagePlane[i] = new RGB[this->height + 1];
+        this->imagePlane[i] = new RGB*[this->height + 1];
+        for (int j = 0; j <= this->height; j++) {
+            this->imagePlane[i][j] = new RGB(0, 0, 0);
+        }
     }
 }
 
@@ -25,8 +28,8 @@ ImagePlane::~ImagePlane() {
 void ImagePlane::print() {
     for (int i = 0; i <= this->width; i++) {
         for (int j = 0; j <= this->height; j++) {
-            RGB &rgb = this->imagePlane[i][j];
-            std::cout << "(" << rgb.red << ", " << rgb.green << ", " << rgb.blue << ")  ";
+            RGB* rgb = this->imagePlane[i][j];
+            std::cout << "(" << rgb->getRed() << ", " << rgb->getGreen() << ", " << rgb->getBlue() << ")  ";
         }
         std::cout << std::endl;
     }

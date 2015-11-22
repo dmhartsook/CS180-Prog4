@@ -11,10 +11,10 @@
 
 class Object {
 public:
-    Object(Vector center, RGB color, double reflectivity);
+    Object(const Vector *center, const RGB *color, double reflectivity);
     virtual ~Object();
 
-    RGB getColor();
+    const RGB* getColor();
     const Vector* getCenter();
 
     // Returns the closest collision point if there is one and NULL if there is no collision
@@ -22,7 +22,7 @@ public:
 
 private:
     Vector* center;
-    RGB color;
+    RGB* color;
     double reflectivity;
 };
 
