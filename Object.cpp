@@ -18,6 +18,6 @@ RGB Object::getColor() {
     return this->color;
 }
 
-Vector Object::getCenter() {
-    return *this->center;
+const Vector* Object::getCenter() {
+    return this->center;
 }

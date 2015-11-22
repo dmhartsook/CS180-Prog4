@@ -8,6 +8,9 @@ class Ray : public Vector {
 public:
     // Pass two points of the form[x, y, z]. Ray is a vector from start to end.
     Ray(Vector start, Vector end);
+    ~Ray();
+
+    const Vector* getStart();
 
 private:
     Vector* start;

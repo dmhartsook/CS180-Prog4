@@ -12,14 +12,17 @@ public:
     Vector(double*); // Pass [x, y, z]
 
     void normalize();
-    void subtract(Vector* other); // this = this - other
-    void dot(Vector* other); // this = this * other
+    Vector* clone() const;
+    void add(const Vector* other); // this = this + other
+    void subtract(const Vector *other); // this = this - other
+    double dot(const Vector *other) const;
+    void multiply(double scalar);   // Multiplies the vector by the given scalar
 
     double length() const;
     double get(int) const;
 
     // Creates a new double array with the values in the vector
-    double*toArray();
+    double* toArray() const;
     void print() const;
 
 private:

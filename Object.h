@@ -15,9 +15,10 @@ public:
     virtual ~Object();
 
     RGB getColor();
-    Vector getCenter();
+    const Vector* getCenter();
 
-    virtual bool intersect(Ray) = 0;
+    // Returns the closest collision point if there is one and NULL if there is no collision
+    virtual Vector * intersect(Ray *) = 0;
 
 private:
     Vector* center;
