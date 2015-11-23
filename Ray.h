@@ -10,7 +10,7 @@ public:
     Ray(Vector start, Vector end);
     ~Ray();
 
-    const Vector* getStart();
+    const Vector* getStart() const;
 
 private:
     Vector* start;

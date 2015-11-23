@@ -13,7 +13,8 @@ class Sphere : public Object {
 public:
     Sphere(const Vector *center, const RGB *color, double reflectivity, double radius);
 
-    Vector * intersect(Ray *);
+    Vector * intersect(const Ray *);
+    Vector*getNormal(const Vector *point);
 
 private:
     double radius;

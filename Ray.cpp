@@ -10,6 +10,6 @@ Ray::~Ray() {
     delete this->start;
 }
 
-const Vector* Ray::getStart() {
+const Vector* Ray::getStart() const {
     return start;
 }

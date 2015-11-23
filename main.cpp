@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
 
     RGB* sphereColor = new RGB(.6, .6, .6);
     Vector* center = new Vector (0, -1, -5);
-    Sphere* sphere = new Sphere(center, sphereColor, .5, 1);
+    Sphere* sphere = new Sphere(center, sphereColor, .5, 1.5);
     delete sphereColor;
     delete center;
 
@@ -26,8 +26,6 @@ int main(int argc, char** argv) {
     Light* light = new Light(lightLocation, lightColor);
     delete lightColor;
     delete lightLocation;
-
-    Vector* v1 = new Vector(5, 0, 0);
 
     for (int i = 0; i < imagePlaneSize; i++) {
         for (int j = 0; j < imagePlaneSize; j++) {

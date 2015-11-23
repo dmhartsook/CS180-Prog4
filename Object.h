@@ -21,7 +21,13 @@ public:
      * Returns the closest collision point if there is one and NULL if there is no collision.
      * This is a new Vector that will need to be deleted.
      */
-    virtual Vector * intersect(Ray *) = 0;
+    virtual Vector * intersect(const Ray *) = 0;
+
+    /*
+     * Returns a new vector representing the vector normal to the object at the specified point.
+     * The point must be on the surface of the object.
+     */
+    virtual Vector*getNormal(const Vector *point) = 0;
 
 private:
     Vector* center;

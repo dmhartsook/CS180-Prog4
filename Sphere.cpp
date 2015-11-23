@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <iostream>
 #include <math.h>
+#include <assert.h>
 
 Sphere::Sphere(const Vector *center, const RGB *color, double reflectivity, double radius)
         : Object(center, color, reflectivity) {
@@ -11,7 +12,7 @@ Sphere::Sphere(const Vector *center, const RGB *color, double reflectivity, doub
 
 
 
-Vector* Sphere::intersect(Ray *r) {
+Vector* Sphere::intersect(const Ray *r) {
     Vector* d = r->clone();
     d->normalize();
 
@@ -52,4 +53,13 @@ Vector* Sphere::intersect(Ray *r) {
     delete d;
 
     return collisionPoint;
+}
+
+Vector *Sphere::getNormal(const Vector *point) {
+    Vector* normal = new Vector(*point);
+    normal->subtract(this->getCenter());
+    assert(normal->length() == this->radius); // Ensure point is on the surface
+    normal->normalize();
+
+    return normal;
 }
