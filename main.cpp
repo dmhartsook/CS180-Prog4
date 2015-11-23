@@ -5,6 +5,7 @@
 #include "Sphere.h"
 #include "Light.h"
 #include <vector>
+#include <cmath>
 
 static const char *const IMAGE_FILENAME = "scene.ppm";
 
@@ -12,20 +13,21 @@ void writePpm(const ImagePlane *, const char *filename);
 
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
-    const int imagePlaneSize = 400;
+    const int imagePlaneSize = 1000;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
-    RGB* sphereColor = new RGB(.6, .6, .6);
-    Vector* center = new Vector (0, -1, -5);
-    Sphere* sphere = new Sphere(center, sphereColor, .5, 1.5);
+    RGB* sphereColor = new RGB(1, 1, 1);
+    Vector* sphereCenter = new Vector (0, 0, -5);
+    Sphere* sphere = new Sphere(sphereCenter, sphereColor, .5, 2);
     delete sphereColor;
-    delete center;
+    delete sphereCenter;
 
     RGB* lightColor = new RGB(1, 1, 1);
-    Vector* lightLocation = new Vector(20, -5, -10);
+    Vector* lightLocation = new Vector(1, 1,1);
     Light* light = new Light(lightLocation, lightColor);
     delete lightColor;
     delete lightLocation;
+
 
     for (int i = 0; i < imagePlaneSize; i++) {
         for (int j = 0; j < imagePlaneSize; j++) {
@@ -37,9 +39,15 @@ int main(int argc, char** argv) {
             const RGB* materialColor;
             if (intersectionPoint != nullptr) {
                 Ray* lightRay = new Ray(*intersectionPoint, *light->getLocation());
+                Vector* normal = sphere->getNormal(intersectionPoint);
+                double angle = normal->angleBetween(*lightRay);
 
                 materialColor = sphere->getColor();
-                imagePlane->setPixelColor(i, j, materialColor);
+                RGB* actualColor = new RGB(*materialColor);
+                actualColor->multiply(std::abs(cos(angle)));
+                actualColor->multiply(light->getColor());
+
+                imagePlane->setPixelColor(i, j, actualColor);
             }
 
             delete intersectionPoint;

@@ -45,3 +45,29 @@ int *RGB::convertTo255Values() const {
 void RGB::print() const {
     std::cout << "(" << this->red << ", " << this->green << ", " << this->blue << ")";
 }
+
+void RGB::multiply(double value) {
+    assert(value >= 0);
+
+    this->red *= value;
+    this->green *= value;
+    this->blue *= value;
+
+    boundColor(this->red);
+    boundColor(this->green);
+    boundColor(this->blue);
+}
+
+void RGB::boundColor(double& color) {
+    if (color < 0) {
+        color = 0;
+    } else if (color > 1) {
+        color = 1;
+    }
+}
+
+void RGB::multiply(const RGB *other) {
+    this->red *= other->getRed();
+    this->green *= other->getGreen();
+    this->blue *= other->getBlue();
+}

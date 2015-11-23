@@ -1,15 +1,20 @@
 #include "Sphere.h"
 #include <stddef.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <assert.h>
+
+
+bool double_equals(double a, double b, double epsilon = 0.00001) {
+    return std::abs(a - b) < epsilon;
+}
+
 
 Sphere::Sphere(const Vector *center, const RGB *color, double reflectivity, double radius)
         : Object(center, color, reflectivity) {
 
     this->radius = radius;
 }
-
 
 
 Vector* Sphere::intersect(const Ray *r) {
@@ -58,7 +63,7 @@ Vector* Sphere::intersect(const Ray *r) {
 Vector *Sphere::getNormal(const Vector *point) {
     Vector* normal = new Vector(*point);
     normal->subtract(this->getCenter());
-    assert(normal->length() == this->radius); // Ensure point is on the surface
+    assert(double_equals(normal->length(), this->radius)); // Ensure point is on the surface
     normal->normalize();
 
     return normal;

@@ -79,3 +79,14 @@ void Vector::multiply(double scalar) {
     this->vector[1] *= scalar;
     this->vector[2] *= scalar;
 }
+
+double Vector::angleBetween(Vector other) const {
+    Vector* vector1 = this->clone();
+    vector1->normalize();
+    other.normalize();
+
+    double angle = acos(vector1->dot(&other));
+
+    delete vector1;
+    return angle;
+}

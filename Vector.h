@@ -26,6 +26,8 @@ public:
     double* toArray() const;
     void print() const;
 
+    // Returns the angle between this and the passed vector in RADIANS
+    double angleBetween(Vector) const;
 
 private:
     double vector[3];

@@ -13,6 +13,10 @@ public:
     RGB(const RGB&);
 
     void setColors(double r, double g, double b);
+    // Multiplies RGB by value. Ensures the values stay between 0 and 1.
+    void multiply(double value);
+    // Multiplies each component of each RGB
+    void multiply(const RGB* other);
 
     double getRed() const;
     double getGreen() const;
@@ -28,6 +32,11 @@ private:
     double green;
     double blue;
 
+    /*
+     * Sets passed value to 0 if it is less than 0
+     * Sets passed value to 1 if it is greater than 1
+     */
+    void boundColor(double& color);
 };
 
 
