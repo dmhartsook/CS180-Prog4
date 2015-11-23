@@ -14,12 +14,9 @@ int main(int argc, char** argv) {
     const int imagePlaneSize = 400;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
-    RGB* color = new RGB(1, 1, 1);
+    RGB* color = new RGB(.6, .6, .6);
     Vector* center = new Vector (0, -1, -5);
     Sphere* sphere = new Sphere(center, color, .5, 1);
-
-    std::vector<Object*> objects;
-    objects.push_back(sphere);
 
     for (int i = 0; i < imagePlaneSize; i++) {
         for (int j = 0; j < imagePlaneSize; j++) {

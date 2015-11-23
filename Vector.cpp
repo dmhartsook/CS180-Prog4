@@ -15,6 +15,12 @@ Vector::Vector(double *point) {
     this->vector[2] = point[2];
 }
 
+Vector::Vector(const Vector &other) {
+    this->vector[0] = other.get(0);
+    this->vector[1] = other.get(1);
+    this->vector[2] = other.get(2);
+}
+
 void Vector::print() const {
     std::cout << "(" << this->vector[0] << ", " << this->vector[1] << ", " << this->vector[2] << ")" << std::endl;
 }

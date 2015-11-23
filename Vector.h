@@ -10,6 +10,7 @@ class Vector {
 public:
     Vector(double, double, double);
     Vector(double*); // Pass [x, y, z]
+    Vector(const Vector&);
 
     void normalize();
     Vector* clone() const;
