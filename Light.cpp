@@ -9,3 +9,12 @@ Light::~Light() {
     delete this->location;
     delete this->color;
 }
+
+const Vector *Light::getLocation() const {
+    return this->location;
+}
+
+
+const RGB *Light::getColor() const {
+    return this->color;
+}

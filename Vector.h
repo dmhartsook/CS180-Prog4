@@ -26,6 +26,7 @@ public:
     double* toArray() const;
     void print() const;
 
+
 private:
     double vector[3];
 

@@ -11,13 +11,16 @@
 
 class Light {
 public:
+    // Copies the given objects and saves pointers to the copies.
     Light(Vector* location, RGB* color);
     ~Light();
+
+    const Vector* getLocation() const;
+    const RGB* getColor() const;
 
 private:
     Vector* location;
     RGB* color;
-
 };
 
 
