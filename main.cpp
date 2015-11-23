@@ -13,7 +13,7 @@ void writePpm(const ImagePlane *, const char *filename);
 
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
-    const int imagePlaneSize = 1000;
+    const int imagePlaneSize = 500;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
     RGB* sphereColor = new RGB(1, 1, 1);
@@ -71,7 +71,7 @@ void writePpm(const ImagePlane *imagePlane, const char *filename) {
     std::ofstream image;
     image.open(filename, std::ios::binary);
 
-    image << "P6" << "\n"
+    image << "P3" << "\n"
         << imagePlane->getWidth() << " " << imagePlane->getHeight() << "\n"
         << "255\n";
 
@@ -80,7 +80,7 @@ void writePpm(const ImagePlane *imagePlane, const char *filename) {
             const RGB *color = imagePlane->getPixelColor(i, j);
             int* colorVals = color->convertTo255Values();
 
-            image << (unsigned char) colorVals[0] << (unsigned char) colorVals[1] << (unsigned char) colorVals[2];
+            image << colorVals[0] << " " <<  colorVals[1] << " " << colorVals[2] << "  ";
 
             delete[] colorVals;
         }

@@ -27,8 +27,8 @@ ImagePlane::~ImagePlane() {
 void ImagePlane::print() const {
     for (int i = 0; i < this->width; i++) {
         for (int j = 0; j < this->height; j++) {
-            RGB* rgb = this->imagePlane[i][j];
-            std::cout << "(" << rgb->getRed() << ", " << rgb->getGreen() << ", " << rgb->getBlue() << ")  ";
+            this->imagePlane[i][j]->print();
+            std::cout << " ";
         }
         std::cout << std::endl;
     }

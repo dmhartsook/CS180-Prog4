@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <iostream>
+#include <iomanip>
 #include "RGB.h"
 
 RGB::RGB(double r, double g, double b) {
@@ -43,6 +44,7 @@ int *RGB::convertTo255Values() const {
 }
 
 void RGB::print() const {
+    std::cout << std::fixed << std::setprecision(2);
     std::cout << "(" << this->red << ", " << this->green << ", " << this->blue << ")";
 }
 
