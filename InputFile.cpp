@@ -105,3 +105,15 @@ Light* InputFile::createLight(std::ifstream &file) const {
 
     return light;
 }
+
+std::vector<const Object *> InputFile::getObjects() const {
+    return this->objects;
+}
+
+std::vector<const Light *> InputFile::getLights() const {
+    return this->lights;
+}
+
+int InputFile::getCameraResolution() const {
+    return this->cameraResolution;
+}

@@ -20,10 +20,14 @@ public:
     InputFile(const char* filename);
     ~InputFile();
 
+    std::vector<const Object*> getObjects() const;
+    std::vector<const Light*> getLights() const;
+    int getCameraResolution() const;
+
 private:
     int cameraResolution;
-    std::vector<Object*> objects;
-    std::vector<Light*> lights;
+    std::vector<const Object*> objects;
+    std::vector<const Light*> lights;
 
     Sphere * createSphere(std::ifstream &file) const;
 

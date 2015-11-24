@@ -18,26 +18,26 @@ int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
 
     InputFile* inputFile = new InputFile("two_spheres.txt");
+    std::vector<const Object*> objects = inputFile->getObjects();
+    std::vector<const Light*> lights = inputFile->getLights();
 
-    const int imagePlaneSize = 500;
+    const int imagePlaneSize = inputFile->getCameraResolution();
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
-    RGB* sphereColor = new RGB(1, 1, 1);
-    Vector* sphereCenter = new Vector (0, 0, -5);
-    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 2);
-    delete sphereColor;
-    delete sphereCenter;
+//    RGB* sphereColor = new RGB(1, 1, 1);
+//    Vector* sphereCenter = new Vector (0, 0, -5);
+//    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 2);
+//    delete sphereColor;
+//    delete sphereCenter;
+//
+//    RGB* lightColor = new RGB(1, 1, 1);
+//    Vector* lightLocation = new Vector(1, 1,1);
+//    const Light* light = new Light(lightLocation, lightColor);
+//    delete lightColor;
+//    delete lightLocation;
 
-    RGB* lightColor = new RGB(1, 1, 1);
-    Vector* lightLocation = new Vector(1, 1,1);
-    const Light* light = new Light(lightLocation, lightColor);
-    delete lightColor;
-    delete lightLocation;
-
-    std::vector<const Object*> objects;
-    std::vector<const Light*> lights;
-    objects.push_back(sphere);
-    lights.push_back(light);
+//    objects.push_back(sphere);
+//    lights.push_back(light);
 
 //    Vector* v1 = new Vector(1, 1, 0);
 //    Vector* v2 = new Vector(3, 0, 0);

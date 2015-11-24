@@ -29,6 +29,8 @@ public:
      */
     virtual Vector*getNormal(const Vector *point) const = 0;
 
+    virtual void print();
+
 private:
     Vector* center;
     RGB* color;
