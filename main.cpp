@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 
             const Vector* intersectionPoint = sphere->intersect(pixelRay);
             const RGB* materialColor;
-            if (intersectionPoint != nullptr) {
+            if (intersectionPoint != NULL) {
                 Ray* lightRay = new Ray(*intersectionPoint, *light->getLocation());
                 Vector* normal = sphere->getNormal(intersectionPoint);
                 double angle = normal->angleBetween(*lightRay);
