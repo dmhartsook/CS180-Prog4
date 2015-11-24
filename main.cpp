@@ -10,9 +10,7 @@
 static const char *const IMAGE_FILENAME = "scene.ppm";
 
 void writePpm(const ImagePlane *, const char *filename);
-
 std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> objects);
-
 RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::vector<const Light *> lights);
 
 int main(int argc, char** argv) {
