@@ -17,7 +17,7 @@ public:
     Vector * intersect(const Ray *) const;
     Vector*getNormal(const Vector *point) const;
 
-    void print();
+    void print() const;
 
 private:
     double radius;

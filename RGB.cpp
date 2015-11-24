@@ -44,7 +44,7 @@ int *RGB::convertTo255Values() const {
 }
 
 void RGB::print() const {
-    std::cout << std::fixed << std::setprecision(2);
+//    std::cout << std::fixed << std::setprecision(2);
     std::cout << "(" << this->red << ", " << this->green << ", " << this->blue << ")";
 }
 

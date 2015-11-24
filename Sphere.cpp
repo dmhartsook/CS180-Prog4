@@ -68,3 +68,12 @@ Vector *Sphere::getNormal(const Vector *point) const {
 
     return normal;
 }
+
+void Sphere::print() const {
+    std::cout << "Sphere:" << std::endl;
+    std::cout << "      center: ";
+    this->getCenter()->print();
+    std::cout << "      color: ";
+    this->getColor()->print();
+    std::cout << std::endl;
+}
