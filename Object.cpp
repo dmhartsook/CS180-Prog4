@@ -14,10 +14,10 @@ Object::~Object() {
     delete this->center;
 }
 
-const RGB* Object::getColor() {
+const RGB* Object::getColor() const {
     return this->color;
 }
 
-const Vector* Object::getCenter() {
+const Vector* Object::getCenter() const {
     return this->center;
 }

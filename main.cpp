@@ -11,6 +11,8 @@ static const char *const IMAGE_FILENAME = "scene.ppm";
 
 void writePpm(const ImagePlane *, const char *filename);
 
+std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> objects);
+
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
     const int imagePlaneSize = 500;
@@ -18,15 +20,26 @@ int main(int argc, char** argv) {
 
     RGB* sphereColor = new RGB(1, 1, 1);
     Vector* sphereCenter = new Vector (0, 0, -5);
-    Sphere* sphere = new Sphere(sphereCenter, sphereColor, .5, 2);
+    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, .5, 2);
     delete sphereColor;
     delete sphereCenter;
 
     RGB* lightColor = new RGB(1, 1, 1);
     Vector* lightLocation = new Vector(1, 1,1);
-    Light* light = new Light(lightLocation, lightColor);
+    const Light* light = new Light(lightLocation, lightColor);
     delete lightColor;
     delete lightLocation;
+
+    std::vector<const Object*> objects;
+    std::vector<const Light*> lights;
+    objects.push_back(sphere);
+    lights.push_back(light);
+
+//    Vector* v1 = new Vector(1, 1, 0);
+//    Vector* v2 = new Vector(3, 0, 0);
+//    std::cout << v1->distance(v2) << std::endl;
+//
+//    return  0;
 
 
     for (int i = 0; i < imagePlaneSize; i++) {
@@ -35,14 +48,17 @@ int main(int argc, char** argv) {
             Vector pixelVector = Vector(pixel);
             Ray* pixelRay = new Ray(eye, pixelVector);
 
-            const Vector* intersectionPoint = sphere->intersect(pixelRay);
+            std::pair<const Vector*, const Object*> intersection = findIntersection(pixelRay, objects);
+            const Vector* intersectionPoint = intersection.first;
+            const Object* intersectedObject = intersection.second;
+
             const RGB* materialColor;
             if (intersectionPoint != NULL) {
                 Ray* lightRay = new Ray(*intersectionPoint, *light->getLocation());
-                Vector* normal = sphere->getNormal(intersectionPoint);
+                Vector* normal = intersectedObject->getNormal(intersectionPoint);
                 double angle = normal->angleBetween(*lightRay);
 
-                materialColor = sphere->getColor();
+                materialColor = intersectedObject->getColor();
                 RGB* actualColor = new RGB(*materialColor);
                 actualColor->multiply(std::abs(cos(angle)));
                 actualColor->multiply(light->getColor());
@@ -58,12 +74,36 @@ int main(int argc, char** argv) {
 
     writePpm(imagePlane, IMAGE_FILENAME);
 
-    delete sphere;
-    delete light;
+    objects.clear();
+    lights.clear();
 
     delete imagePlane;
 
     return 0;
+}
+
+/*
+ * Finds the interesection between the ray and the closest object.
+ * Returns the intersection point, which is a new vector and must be deleted.
+ * Also returns the object that was intersected.
+ */
+std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> objects) {
+    const Vector* closestPoint = NULL;
+    const Object* closestObject = NULL;
+    double distanceClosest = INFINITY;
+    for (int i = 0; i < objects.size(); i++) {
+        const Vector* intersectionPoint = objects[i]->intersect(ray);
+        if (intersectionPoint != NULL) {
+            double intersectDistance = ray->getStart()->distance(intersectionPoint);
+            if (intersectDistance < distanceClosest) {
+                closestObject = objects[i];
+                closestPoint = intersectionPoint;
+                distanceClosest = intersectDistance;
+            }
+        }
+
+    }
+    return std::make_pair(closestPoint, closestObject);
 }
 
 

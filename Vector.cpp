@@ -90,3 +90,10 @@ double Vector::angleBetween(Vector other) const {
     delete vector1;
     return angle;
 }
+
+double Vector::distance(const Vector *other) const {
+    double dx = other->get(0) - this->vector[0];
+    double dy = other->get(1) - this->vector[1];
+    double dz = other->get(2) - this->vector[2];
+    return sqrt(dx*dx + dy*dy + dz*dz);
+}

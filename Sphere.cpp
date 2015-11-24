@@ -17,7 +17,7 @@ Sphere::Sphere(const Vector *center, const RGB *color, double reflectivity, doub
 }
 
 
-Vector* Sphere::intersect(const Ray *r) {
+Vector* Sphere::intersect(const Ray *r) const {
     Vector* d = r->clone();
     d->normalize();
 
@@ -57,10 +57,10 @@ Vector* Sphere::intersect(const Ray *r) {
 
     delete d;
 
-    return collisionPoint;
+    return collisionPoint; // o + td
 }
 
-Vector *Sphere::getNormal(const Vector *point) {
+Vector *Sphere::getNormal(const Vector *point) const {
     Vector* normal = new Vector(*point);
     normal->subtract(this->getCenter());
     assert(double_equals(normal->length(), this->radius)); // Ensure point is on the surface

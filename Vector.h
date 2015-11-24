@@ -29,6 +29,9 @@ public:
     // Returns the angle between this and the passed vector in RADIANS
     double angleBetween(Vector) const;
 
+    // Calculates the distance from this vector to the passed vector
+    double distance(const Vector *other) const;
+
 private:
     double vector[3];
 
