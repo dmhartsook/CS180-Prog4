@@ -1,7 +1,3 @@
-//
-// Created by Deanna Hartsook on 11/22/15.
-//
-
 #ifndef CS180_PROG4_RGB_H
 #define CS180_PROG4_RGB_H
 
@@ -13,6 +9,10 @@ public:
     RGB(const RGB&);
 
     void setColors(double r, double g, double b);
+
+    // Adds each component of this color by the corresponding component of the other color. Will max out at 1.
+    void add(const RGB* other);
+
     // Multiplies RGB by value. Ensures the values stay between 0 and 1.
     void multiply(double value);
     // Multiplies each component of each RGB

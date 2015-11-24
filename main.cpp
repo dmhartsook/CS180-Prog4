@@ -13,6 +13,8 @@ void writePpm(const ImagePlane *, const char *filename);
 
 std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> objects);
 
+RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::vector<const Light *> lights);
+
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
     const int imagePlaneSize = 500;
@@ -41,6 +43,14 @@ int main(int argc, char** argv) {
 //
 //    return  0;
 
+//    RGB* r1 = new RGB(.2, .4, .7);
+//    RGB* r2 = new RGB(.1, .6, .5);
+//    r1->add(r2);
+//    r1->print();
+//    std::cout << std::endl;
+//
+//    return 0;
+
 
     for (int i = 0; i < imagePlaneSize; i++) {
         for (int j = 0; j < imagePlaneSize; j++) {
@@ -52,18 +62,10 @@ int main(int argc, char** argv) {
             const Vector* intersectionPoint = intersection.first;
             const Object* intersectedObject = intersection.second;
 
-            const RGB* materialColor;
             if (intersectionPoint != NULL) {
-                Ray* lightRay = new Ray(*intersectionPoint, *light->getLocation());
-                Vector* normal = intersectedObject->getNormal(intersectionPoint);
-                double angle = normal->angleBetween(*lightRay);
-
-                materialColor = intersectedObject->getColor();
-                RGB* actualColor = new RGB(*materialColor);
-                actualColor->multiply(std::abs(cos(angle)));
-                actualColor->multiply(light->getColor());
-
+                RGB* actualColor = determineColor(intersectedObject, intersectionPoint, lights);
                 imagePlane->setPixelColor(i, j, actualColor);
+                delete actualColor;
             }
 
             delete intersectionPoint;
@@ -80,6 +82,32 @@ int main(int argc, char** argv) {
     delete imagePlane;
 
     return 0;
+}
+
+/*
+ * Determines the color of the object at the intersectionPoint from the lights.
+ * Sum(lightColor*materialColor*cos(angleFromNormalToLight).
+ * Returns a new RGB object that must be destroyed.
+ */
+RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::vector<const Light *> lights) {
+    RGB* actualColor = new RGB(0, 0, 0);
+    const RGB* materialColor = object->getColor();
+    Vector *normal = object->getNormal(intersectionPoint);
+
+    for (int i = 0; i < lights.size(); i++) {
+        Ray *lightRay = new Ray(*intersectionPoint, *(lights[i]->getLocation()));
+        double angle = normal->angleBetween(*lightRay);
+
+        RGB *colorFromLight = new RGB(*materialColor);
+        colorFromLight->multiply(std::abs(cos(angle)));
+        colorFromLight->multiply(lights[i]->getColor());
+
+        actualColor->add(colorFromLight);
+
+        delete colorFromLight;
+    }
+
+    return actualColor;
 }
 
 /*

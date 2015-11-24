@@ -73,3 +73,13 @@ void RGB::multiply(const RGB *other) {
     this->green *= other->getGreen();
     this->blue *= other->getBlue();
 }
+
+void RGB::add(const RGB *other) {
+    this->red += other->getRed();
+    this->green += other->getGreen();
+    this->blue += other->getBlue();
+
+    boundColor(this->red);
+    boundColor(this->green);
+    boundColor(this->blue);
+}
