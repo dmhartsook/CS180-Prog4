@@ -11,6 +11,7 @@
 
 class Sphere : public Object {
 public:
+    // Copies and asves the center and color
     Sphere(const Vector *center, const RGB *color, double reflectivity, double radius);
 
     Vector * intersect(const Ray *) const;

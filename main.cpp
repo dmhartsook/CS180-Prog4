@@ -4,6 +4,7 @@
 #include "Ray.h"
 #include "Sphere.h"
 #include "Light.h"
+#include "InputFile.h"
 #include <vector>
 #include <cmath>
 
@@ -15,12 +16,15 @@ RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::
 
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
+
+    InputFile* inputFile = new InputFile("two_spheres.txt");
+
     const int imagePlaneSize = 500;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
     RGB* sphereColor = new RGB(1, 1, 1);
     Vector* sphereCenter = new Vector (0, 0, -5);
-    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, .5, 2);
+    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 2);
     delete sphereColor;
     delete sphereCenter;
 
@@ -78,6 +82,7 @@ int main(int argc, char** argv) {
     lights.clear();
 
     delete imagePlane;
+    delete inputFile;
 
     return 0;
 }

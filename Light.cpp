@@ -1,6 +1,6 @@
 #include "Light.h"
 
-Light::Light(Vector *location, RGB *color) {
+Light::Light(const Vector *location, const RGB *color) {
     this->location = new Vector(*location);
     this->color = new RGB(*color);
 }
