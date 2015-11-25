@@ -11,6 +11,7 @@ public:
     ~Ray();
 
     const Vector* getStart() const;
+    void print() const;
 
 private:
     Vector* start;

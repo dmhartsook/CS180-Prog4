@@ -51,6 +51,11 @@ Vector* Sphere::intersect(const Ray *r) const {
         return NULL;
     }
 
+    if (t < 0) {
+        delete d;
+        return NULL;
+    }
+
     d->multiply(t); // d = t * d
     Vector* collisionPoint = r->getStart()->clone();
     collisionPoint->add(d);
@@ -76,4 +81,5 @@ void Sphere::print() const {
     std::cout << "      color: ";
     this->getColor()->print();
     std::cout << std::endl;
+    std::cout << "      radius: " << this->radius << std::endl;
 }

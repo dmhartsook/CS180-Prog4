@@ -11,8 +11,11 @@
 static const char *const IMAGE_FILENAME = "scene.ppm";
 
 void writePpm(const ImagePlane *, const char *filename);
-std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> objects);
-RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::vector<const Light *> lights);
+std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> &objects);
+RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::vector<const Light *> lights,
+                    std::vector<const Object *> objects);
+
+const Object * intersectObject(const Ray *ray, std::vector<const Object *>& objects);
 
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
@@ -22,7 +25,7 @@ int main(int argc, char** argv) {
     std::vector<const Light*> lights = inputFile->getLights();
 
     const int imagePlaneSize = inputFile->getCameraResolution();
-//    const int imagePlaneSize = 15;
+//    const int imagePlaneSize = 200;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
 //    for (int i = 0; i < objects.size(); i++){
@@ -70,7 +73,7 @@ int main(int argc, char** argv) {
             const Object* intersectedObject = intersection.second;
 
             if (intersectionPoint != NULL) {
-                RGB* actualColor = determineColor(intersectedObject, intersectionPoint, lights);
+                RGB* actualColor = determineColor(intersectedObject, intersectionPoint, lights, objects);
                 imagePlane->setPixelColor(i, j, actualColor);
                 delete actualColor;
             }
@@ -80,7 +83,7 @@ int main(int argc, char** argv) {
             delete[] pixel;
         }
     }
-    
+
     writePpm(imagePlane, IMAGE_FILENAME);
 
     objects.clear();
@@ -97,25 +100,59 @@ int main(int argc, char** argv) {
  * Sum(lightColor*materialColor*cos(angleFromNormalToLight).
  * Returns a new RGB object that must be destroyed.
  */
-RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::vector<const Light *> lights) {
+RGB *determineColor(const Object *object,
+                    const Vector *intersectionPoint,
+                    std::vector<const Light *> lights,
+                    std::vector<const Object *> objects) {
     RGB* actualColor = new RGB(0, 0, 0);
     const RGB* materialColor = object->getColor();
     Vector *normal = object->getNormal(intersectionPoint);
 
+//    std::cout << "determining color of ";
+//    object->print();
+//    std::cout << " at ";
+//    intersectionPoint->print();
+
     for (int i = 0; i < lights.size(); i++) {
         Ray *lightRay = new Ray(*intersectionPoint, *(lights[i]->getLocation()));
-        double angle = normal->angleBetween(*lightRay);
 
-        RGB *colorFromLight = new RGB(*materialColor);
-        colorFromLight->multiply(std::abs(cos(angle)));
-        colorFromLight->multiply(lights[i]->getColor());
+        const Object *intersectedObject = intersectObject(lightRay, objects);
 
-        actualColor->add(colorFromLight);
+        if (intersectedObject == NULL || intersectedObject == object) { // Not in shadow
+            double angle = normal->angleBetween(*lightRay);
 
-        delete colorFromLight;
+            RGB *colorFromLight = new RGB(*materialColor);
+            colorFromLight->multiply(std::abs(cos(angle)));
+            colorFromLight->multiply(lights[i]->getColor());
+
+            actualColor->add(colorFromLight);
+
+            delete colorFromLight;
+        }
     }
 
     return actualColor;
+}
+
+/*
+ * Returns the intersected object if the ray intersects any object in the vector of objects.
+ * Returns NULL if the ray does not intersect any objects.
+ */
+const Object * intersectObject(const Ray *ray, std::vector<const Object *>& objects) {
+    for (int i = 0; i < objects.size(); i++) {
+        const Vector* intersectionPoint = objects[i]->intersect(ray);
+        if (intersectionPoint != NULL) {
+//            std::cout << "Ray: ";
+//            ray->print();
+//            std::cout << "intersected ";
+//            objects[i]->print();
+//            std::cout << " at: ";
+//            intersectionPoint->print();
+            return objects[i];
+        }
+    }
+
+    return NULL;
 }
 
 /*
@@ -123,7 +160,7 @@ RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::
  * Returns the intersection point, which is a new vector and must be deleted.
  * Also returns the object that was intersected.
  */
-std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> objects) {
+std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> &objects) {
     const Vector* closestPoint = NULL;
     const Object* closestObject = NULL;
     double distanceClosest = INFINITY;

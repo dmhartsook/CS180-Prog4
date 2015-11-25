@@ -48,7 +48,7 @@ Sphere* InputFile::createSphere(std::ifstream &file) const {
 
     file >> attribute;
     assert(attribute.compare("center") == 0);
-    int centerX, centerY, centerZ;
+    double centerX, centerY, centerZ;
     file >> centerX;
     file >> centerY;
     file >> centerZ;
@@ -84,7 +84,7 @@ Light* InputFile::createLight(std::ifstream &file) const {
     std::string attribute;
     file >> attribute;
     assert(attribute.compare("location") == 0);
-    int locationX, locationY, locationZ;
+    double locationX, locationY, locationZ;
     file >> locationX;
     file >> locationY;
     file >> locationZ;

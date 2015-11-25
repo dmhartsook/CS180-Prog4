@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Ray.h"
 
 Ray::Ray(Vector start, Vector end) : Vector(end.toArray()) {
@@ -12,4 +13,11 @@ Ray::~Ray() {
 
 const Vector* Ray::getStart() const {
     return start;
+}
+
+void Ray::print() const {
+    std::cout << "this ray:";
+    Vector::print();
+    std::cout << "start: ";
+    this->start->print();
 }
