@@ -4,4 +4,5 @@ SOURCES = main.cpp Vector.cpp Ray.cpp ImagePlane.cpp Sphere.cpp Object.cpp RGB.c
 raytracer: $(SOURCES)
 	$(CC) -o raytracer $(SOURCES)
 
-clean: rm *.o raytracer
+clean:
+	rm -f *.o raytracer
