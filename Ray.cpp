@@ -24,7 +24,10 @@ void Ray::print() const {
 
 
 void Ray::move(double amount) {
-	Vector amountVector(amount, amount, amount);
-	this->add(&amountVector);
-	this->start->add(&amountVector);
+	Vector* moveVector = this->clone();
+	moveVector->normalize();
+	moveVector->multiply(amount);
+	this->add(moveVector);
+	this->start->add(moveVector);
+	delete moveVector;
 }

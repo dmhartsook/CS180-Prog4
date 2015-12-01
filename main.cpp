@@ -1,13 +1,14 @@
 #include <algorithm>
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include "ImagePlane.h"
+#include "InputFile.h"
+#include "Light.h"
 #include "Ray.h"
 #include "Sphere.h"
-#include "Light.h"
-#include "InputFile.h"
+#include <utility>
 #include <vector>
-#include <cmath>
 
 static const char *const IMAGE_FILENAME = "scene.ppm";
 static const double EPSILON = .0001;
@@ -22,7 +23,12 @@ const Object * intersectObject(const Ray *ray, std::vector<const Object *>& obje
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
 
-    InputFile* inputFile = new InputFile("two_spheres_shadow.txt");
+    InputFile* inputFile;
+    if (argc > 1) {
+    	inputFile = new InputFile(argv[1]);
+    } else {
+    	inputFile = new InputFile("two_spheres_shadow.txt");
+    }
     std::vector<const Object*> objects = inputFile->getObjects();
     std::vector<const Light*> lights = inputFile->getLights();
 
@@ -110,11 +116,6 @@ RGB *determineColor(const Object *object,
     const RGB* materialColor = object->getColor();
     Vector *normal = object->getNormal(intersectionPoint);
 
-//    std::cout << "determining color of ";
-//    object->print();
-//    std::cout << " at ";
-//    intersectionPoint->print();
-
     for (int i = 0; i < lights.size(); i++) {
         Ray *lightRay = new Ray(*intersectionPoint, *(lights[i]->getLocation()));
         lightRay->move(EPSILON);
@@ -125,7 +126,8 @@ RGB *determineColor(const Object *object,
             double angle = normal->angleBetween(*lightRay);
 
             RGB *colorFromLight = new RGB(*materialColor);
-            colorFromLight->multiply(std::max(0.0, cos(angle))); // if cos(angle) < 0 then in shadow
+            // if cos(angle) < 0 then in shadow so multiply by 0
+            colorFromLight->multiply(std::max(0.0, cos(angle)));
             colorFromLight->multiply(lights[i]->getColor());
 
             actualColor->add(colorFromLight);
@@ -145,12 +147,6 @@ const Object * intersectObject(const Ray *ray, std::vector<const Object *>& obje
     for (int i = 0; i < objects.size(); i++) {
         const Vector* intersectionPoint = objects[i]->intersect(ray);
         if (intersectionPoint != NULL) {
-//            std::cout << "Ray: ";
-//            ray->print();
-//            std::cout << "intersected ";
-//            objects[i]->print();
-//            std::cout << " at: ";
-//            intersectionPoint->print();
             return objects[i];
         }
     }
