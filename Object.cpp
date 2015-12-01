@@ -21,3 +21,7 @@ const RGB* Object::getColor() const {
 const Vector* Object::getCenter() const {
     return this->center;
 }
+
+double Object::getReflectivity() const {
+	return this->reflectivity;
+}

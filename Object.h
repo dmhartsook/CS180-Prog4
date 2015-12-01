@@ -16,6 +16,7 @@ public:
 
     const RGB* getColor() const;
     const Vector* getCenter() const;
+    double getReflectivity() const;
 
     /*
      * Returns the closest collision point if there is one and NULL if there is no collision.

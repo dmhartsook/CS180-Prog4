@@ -118,7 +118,7 @@ RGB *determineColor(const Object *object,
 
     for (int i = 0; i < lights.size(); i++) {
         Ray *lightRay = new Ray(*intersectionPoint, *(lights[i]->getLocation()));
-        lightRay->move(EPSILON);
+        lightRay->move(EPSILON); // Move out to prevent ray from incorrectly colliding with the object.
 
         const Object *intersectedObject = intersectObject(lightRay, objects);
 
@@ -133,6 +133,8 @@ RGB *determineColor(const Object *object,
             actualColor->add(colorFromLight);
 
             delete colorFromLight;
+        } else if (intersectedObject->getReflectivity() > 0) { // reflection
+
         }
     }
 
