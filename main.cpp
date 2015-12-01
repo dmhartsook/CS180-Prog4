@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include "ImagePlane.h"
@@ -9,6 +10,7 @@
 #include <cmath>
 
 static const char *const IMAGE_FILENAME = "scene.ppm";
+static const double EPSILON = .0001;
 
 void writePpm(const ImagePlane *, const char *filename);
 std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> &objects);
@@ -20,7 +22,7 @@ const Object * intersectObject(const Ray *ray, std::vector<const Object *>& obje
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
 
-    InputFile* inputFile = new InputFile("two_spheres.txt");
+    InputFile* inputFile = new InputFile("two_spheres_shadow.txt");
     std::vector<const Object*> objects = inputFile->getObjects();
     std::vector<const Light*> lights = inputFile->getLights();
 
@@ -115,14 +117,15 @@ RGB *determineColor(const Object *object,
 
     for (int i = 0; i < lights.size(); i++) {
         Ray *lightRay = new Ray(*intersectionPoint, *(lights[i]->getLocation()));
+        lightRay->move(EPSILON);
 
         const Object *intersectedObject = intersectObject(lightRay, objects);
 
-        if (intersectedObject == NULL || intersectedObject == object) { // Not in shadow
+        if (intersectedObject == NULL) { // Not in shadow
             double angle = normal->angleBetween(*lightRay);
 
             RGB *colorFromLight = new RGB(*materialColor);
-            colorFromLight->multiply(std::abs(cos(angle)));
+            colorFromLight->multiply(std::max(0.0, cos(angle))); // if cos(angle) < 0 then in shadow
             colorFromLight->multiply(lights[i]->getColor());
 
             actualColor->add(colorFromLight);

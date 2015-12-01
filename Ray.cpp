@@ -21,3 +21,10 @@ void Ray::print() const {
     std::cout << "start: ";
     this->start->print();
 }
+
+
+void Ray::move(double amount) {
+	Vector amountVector(amount, amount, amount);
+	this->add(&amountVector);
+	this->start->add(&amountVector);
+}

@@ -5,3 +5,5 @@ raytracer.dSYM/
 .DS_Store
 *.ppm
 *.png
+.cproject
+.project

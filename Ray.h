@@ -10,6 +10,9 @@ public:
     Ray(Vector start, Vector end);
     ~Ray();
 
+    // Moves the ray by amount. Adjusts the start and end of the ray.
+    void move(double amount);
+
     const Vector* getStart() const;
     void print() const;
 
