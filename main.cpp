@@ -10,17 +10,20 @@
 #include <utility>
 #include "Light.h"
 #include "InputFile.h"
+#include "Scene.h"
 #include <vector>
 
 static const char *const IMAGE_FILENAME = "scene.ppm";
 static const double EPSILON = .0001;
+static const RGB BACKGROUND_COLOR(0, 0, 0);
 
 void writePpm(const ImagePlane *, const char *filename);
 std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> &objects);
-RGB *determineColor(const Object *object, const Vector *intersectionPoint, std::vector<const Light *> lights,
-                    std::vector<const Object *> objects);
+RGB *castRay(const Ray *ray, Scene scene, int depth);
+RGB *determineColor(const Object *object, const Vector *intersectionPoint, Scene scene);
 
 const Object * intersectObject(const Ray *ray, std::vector<const Object *>& objects);
+
 
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
@@ -32,8 +35,9 @@ int main(int argc, char** argv) {
         inputFile = new InputFile("two_spheres.txt");
     }
 
-    std::vector<const Object*> objects = inputFile->getObjects();
-    std::vector<const Light*> lights = inputFile->getLights();
+    Scene scene;
+    scene.objects = inputFile->getObjects();
+    scene.lights = inputFile->getLights();
 
     const int imagePlaneSize = inputFile->getCameraResolution();
 //    const int imagePlaneSize = 200;
@@ -100,26 +104,16 @@ int main(int argc, char** argv) {
             Vector pixelVector = Vector(pixel);
             Ray* pixelRay = new Ray(eye, pixelVector);
 
-            std::pair<const Vector*, const Object*> intersection = findIntersection(pixelRay, objects);
-            const Vector* intersectionPoint = intersection.first;
-            const Object* intersectedObject = intersection.second;
+            RGB* actualColor = castRay(pixelRay, scene, 0);
+            imagePlane->setPixelColor(i, j, actualColor);
 
-            if (intersectionPoint != NULL) {
-                RGB* actualColor = determineColor(intersectedObject, intersectionPoint, lights, objects);
-                imagePlane->setPixelColor(i, j, actualColor);
-                delete actualColor;
-            }
-
-            delete intersectionPoint;
+            delete actualColor;
             delete pixelRay;
             delete[] pixel;
         }
     }
 
     writePpm(imagePlane, IMAGE_FILENAME);
-
-    objects.clear();
-    lights.clear();
 
     delete imagePlane;
     delete inputFile;
@@ -128,23 +122,35 @@ int main(int argc, char** argv) {
 }
 
 /*
+ * Casts a ray into the scene and determines the color at its origin.
+ * The depth is the number of times this function
+ */
+RGB *castRay(const Ray *ray, Scene scene, int depth) {
+    std::pair<const Vector*, const Object*> intersection = findIntersection(ray, scene.objects);
+    const Vector* intersectionPoint = intersection.first;
+    const Object* intersectedObject = intersection.second;
+    if (intersectionPoint != NULL) {
+        return determineColor(intersectedObject, intersectionPoint, scene);
+    } else {
+        return new RGB(BACKGROUND_COLOR);
+    }
+}
+
+/*
  * Determines the color of the object at the intersectionPoint from the lights.
  * Sum(lightColor*materialColor*cos(angleFromNormalToLight).
  * Returns a new RGB object that must be destroyed.
  */
-RGB *determineColor(const Object *object,
-                    const Vector *intersectionPoint,
-                    std::vector<const Light *> lights,
-                    std::vector<const Object *> objects) {
+RGB *determineColor(const Object *object, const Vector *intersectionPoint, Scene scene) {
     RGB* actualColor = new RGB(0, 0, 0);
     const RGB* materialColor = object->getColor();
     Vector *normal = object->getNormal(intersectionPoint);
 
-    for (int i = 0; i < lights.size(); i++) {
-        Ray *lightRay = new Ray(*intersectionPoint, *(lights[i]->getLocation()));
+    for (int i = 0; i < scene.lights.size(); i++) {
+        Ray *lightRay = new Ray(*intersectionPoint, *(scene.lights[i]->getLocation()));
         lightRay->move(EPSILON); // Move out to prevent ray from incorrectly colliding with the object.
 
-        const Object *intersectedObject = intersectObject(lightRay, objects);
+        const Object *intersectedObject = intersectObject(lightRay, scene.objects);
 
         if (intersectedObject == NULL) { // Not in shadow
             double angle = normal->angleBetween(*lightRay);
@@ -152,7 +158,7 @@ RGB *determineColor(const Object *object,
             RGB *colorFromLight = new RGB(*materialColor);
             // if cos(angle) < 0 then in shadow so multiply by 0
             colorFromLight->multiply(std::max(0.0, cos(angle)));
-            colorFromLight->multiply(lights[i]->getColor());
+            colorFromLight->multiply(scene.lights[i]->getColor());
 
             actualColor->add(colorFromLight);
 
