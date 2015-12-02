@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 make
-./raytracer $@
+
+./raytracer "$@"
 convert scene.ppm scene.png
 open scene.png

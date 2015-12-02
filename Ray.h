@@ -15,9 +15,10 @@ public:
 
     /*
      * Determines the color of the first spot the ray collides with
+     * Depth is the recursion depth of the call, maxes out at MAX_CASTING_DEPTH
      * Returns Null if the ray does not collide with anything.
      */
-    RGB* castRay(Scene& scene);
+    RGB* castRay(Scene& scene, int depth) const;
 
     // Moves the ray by amount. Adjusts the start and end of the ray.
     void move(double amount);
@@ -29,9 +30,6 @@ public:
 private:
     static const int MAX_CASTING_DEPTH = 8;
     Vector* start;
-
-    // Depth is the recursion depth of the call, maxes out at MAX_CASTING_DEPTH
-    RGB* castRay(Scene& scene, int depth) const;
 
     /*
      * Returns the intersected object if the ray intersects any object in the vector of objects.
@@ -51,7 +49,7 @@ private:
      * Sum(lightColor*materialColor*cos(angleFromNormalToLight).
      * Returns a new RGB object that must be destroyed.
      */
-    RGB *determineColor(const Object *object, const Vector *intersectionPoint, Scene scene) const;
+    RGB *determineColor(const Object *object, const Vector *intersectionPoint, Scene scene, int depth) const;
 };
 
 

@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
             Vector pixelVector = Vector(pixel);
             Ray* pixelRay = new Ray(eye, pixelVector);
 
-            RGB* actualColor = pixelRay->castRay(scene);
+            RGB* actualColor = pixelRay->castRay(scene, 0);
             if (actualColor == NULL) {
                 actualColor = new RGB(BACKGROUND_COLOR);
             }

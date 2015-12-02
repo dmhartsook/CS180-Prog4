@@ -40,16 +40,17 @@ void Ray::move(double amount) {
 	delete moveVector;
 }
 
-RGB *Ray::castRay(Scene &scene) {
-    return castRay(scene, 0);
-}
-
 RGB *Ray::castRay(Scene &scene, int depth) const {
+    if (depth >= MAX_CASTING_DEPTH) {
+//    if (depth >= 2) {
+        return NULL;
+    }
+
     std::pair<const Vector*, const Object*> intersection = findIntersection(scene.objects);
     const Vector* intersectionPoint = intersection.first;
     const Object* intersectedObject = intersection.second;
     if (intersectionPoint != NULL) {
-        return determineColor(intersectedObject, intersectionPoint, scene);
+        return determineColor(intersectedObject, intersectionPoint, scene, depth);
     } else {
         return NULL;
     }
@@ -74,7 +75,7 @@ std::pair<const Vector *, const Object *> Ray::findIntersection(std::vector<cons
     return std::make_pair(closestPoint, closestObject);
 }
 
-RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, Scene scene) const {
+RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, Scene scene, int depth) const {
     RGB* actualColor = new RGB(0, 0, 0);
     const RGB* materialColor = object->getColor();
     Vector *normal = object->getNormal(intersectionPoint);
@@ -83,9 +84,9 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
         Ray *lightRay = new Ray(*intersectionPoint, *(scene.lights[i]->getLocation()));
         lightRay->move(EPSILON); // Move out to prevent ray from incorrectly colliding with the object.
 
-        const Object *intersectedObject = lightRay->intersectObject(scene.objects);
+        const Object *objectBlockingLight = lightRay->intersectObject(scene.objects);
 
-        if (intersectedObject == NULL) { // Not in shadow
+        if (objectBlockingLight == NULL) { // Not in shadow
             double angle = normal->angleBetween(*lightRay);
 
             RGB *colorFromLight = new RGB(*materialColor);
@@ -96,8 +97,20 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
             actualColor->add(colorFromLight);
 
             delete colorFromLight;
-        } else if (intersectedObject->getReflectivity() > 0) { // reflection
+        } else if (objectBlockingLight->getReflectivity() > 0) { // reflection
+            Vector *reflectedVector = this->createReflectedVector(normal);
+            reflectedVector->add(intersectionPoint); // move it to start at the intersection point
+            Ray* reflectedRay = new Ray(*intersectionPoint, *reflectedVector);
+            reflectedRay->move(EPSILON);
+            RGB* reflectionColor = reflectedRay->castRay(scene, depth + 1);
 
+            if (reflectionColor != NULL) {
+                reflectionColor->multiply(objectBlockingLight->getReflectivity());
+                actualColor->add(reflectionColor);
+            }
+
+            delete reflectedRay;
+            delete reflectedVector;
         }
     }
 
