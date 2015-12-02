@@ -1,6 +1,7 @@
 #include <fstream>
 #include "InputFile.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include <iostream>
 #include <assert.h>
 
@@ -24,7 +25,8 @@ InputFile::InputFile(const char *filename) {
             Sphere* sphere = createSphere(file);
             this->objects.push_back(sphere);
         } else if (objectType.compare("plane") == 0) {
-            std::cerr << "TODO: Create a plane" << std::endl;
+            Plane* plane = createPlane(file);
+            this->objects.push_back(plane);
         } else if (objectType.compare("light") == 0) {
             Light* light = createLight(file);
             lights.push_back(light);
@@ -38,6 +40,8 @@ InputFile::~InputFile() {
     objects.clear();
     lights.clear();
 }
+
+// TODO: Fix creates so the attributes can be given in any order
 
 Sphere* InputFile::createSphere(std::ifstream &file) const {
     std::string attribute;
@@ -62,10 +66,14 @@ Sphere* InputFile::createSphere(std::ifstream &file) const {
     file >> blue;
     RGB* color = new RGB(red, green, blue);
 
-    double reflectivity = 1.0;
+    file >> attribute;
+    double reflectivity = 0.0;
     if (attribute.compare("reflectivity") == 0) {
-        std::cerr << "TODO: implement reading reflective value" << std::endl;
-    } else if (attribute.compare("texture") == 0) {
+        file >> reflectivity;
+        file >> attribute;
+    }
+
+    if (attribute.compare("texture") == 0) {
         std::cerr << "TODO: implement reading texture value" << std::endl;
     } else {
         // Onto the next object so move backwards so that the outer loop can determine the object type
@@ -116,4 +124,61 @@ std::vector<const Light *> InputFile::getLights() const {
 
 int InputFile::getCameraResolution() const {
     return this->cameraResolution;
+}
+
+Plane * InputFile::createPlane(std::ifstream &file) {
+    std::string attribute;
+    file >> attribute;
+    assert(attribute.compare("dimension") == 0);
+    double xLength, yLength;
+    file >> xLength;
+    file >> yLength;
+
+    file >> attribute;
+    assert(attribute.compare("center") == 0);
+    double centerX, centerY, centerZ;
+    file >> centerX;
+    file >> centerY;
+    file >> centerZ;
+    Vector center(centerX, centerY, centerZ);
+
+    file >> attribute;
+    assert(attribute.compare("normal") == 0);
+    double normalX, normalY, normalZ;
+    file >> normalX;
+    file >> normalY;
+    file >> normalZ;
+    Vector normal(normalX, normalY, normalZ);
+
+    file >> attribute;
+    assert(attribute.compare("headup") == 0);
+    double headupX, headupY, headupZ;
+    file >> headupX;
+    file >> headupY;
+    file >> headupZ;
+    Vector headup(headupX, headupY, headupZ);
+
+    file >> attribute;
+    double reflectivity = 0.0;
+    if (attribute.compare("reflectivity") == 0) {
+        file >> reflectivity;
+        file >> attribute;
+    }
+
+    assert(attribute.compare("color") == 0);
+    double red, green, blue;
+    file >> red;
+    file >> green;
+    file >> blue;
+    RGB color(red, green, blue);
+
+    file >> attribute;
+    if (attribute.compare("texture") == 0) {
+        std::cerr << "TODO: implement reading texture value" << std::endl;
+    } else {
+        // Onto the next object so move backwards so that the outer loop can determine the object type
+        file.seekg(-attribute.length(), file.cur);
+    }
+
+    return new Plane(xLength, yLength, &center, &color, &normal, &headup, reflectivity);
 }

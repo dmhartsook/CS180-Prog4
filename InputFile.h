@@ -10,6 +10,7 @@
 #include "Object.h"
 #include "Light.h"
 #include "Sphere.h"
+#include "Plane.h"
 
 class InputFile {
 public:
@@ -32,6 +33,8 @@ private:
     Sphere * createSphere(std::ifstream &file) const;
 
     Light *createLight(std::ifstream &file) const;
+
+    Plane * createPlane(std::ifstream &file);
 };
 
 
