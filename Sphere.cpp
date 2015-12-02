@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <assert.h>
+#include "Ray.h"
 
 
 bool double_equals(double a, double b, double epsilon = 0.00001) {

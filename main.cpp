@@ -104,7 +104,11 @@ int main(int argc, char** argv) {
             Vector pixelVector = Vector(pixel);
             Ray* pixelRay = new Ray(eye, pixelVector);
 
-            RGB* actualColor = castRay(pixelRay, scene, 0);
+//            RGB* actualColor = castRay(pixelRay, scene, 0);
+            RGB* actualColor = pixelRay->castRay(scene);
+            if (actualColor == NULL) {
+                actualColor = new RGB(BACKGROUND_COLOR);
+            }
             imagePlane->setPixelColor(i, j, actualColor);
 
             delete actualColor;

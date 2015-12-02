@@ -5,9 +5,10 @@
 #ifndef CS180_PROG4_OBJECT_H
 #define CS180_PROG4_OBJECT_H
 
-
-#include "Ray.h"
 #include "RGB.h"
+#include "Vector.h"
+
+class Ray;
 
 class Object {
 public:
