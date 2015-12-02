@@ -14,16 +14,9 @@
 #include <vector>
 
 static const char *const IMAGE_FILENAME = "scene.ppm";
-static const double EPSILON = .0001;
 static const RGB BACKGROUND_COLOR(0, 0, 0);
 
 void writePpm(const ImagePlane *, const char *filename);
-std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> &objects);
-RGB *castRay(const Ray *ray, Scene scene, int depth);
-RGB *determineColor(const Object *object, const Vector *intersectionPoint, Scene scene);
-
-const Object * intersectObject(const Ray *ray, std::vector<const Object *>& objects);
-
 
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
@@ -104,7 +97,6 @@ int main(int argc, char** argv) {
             Vector pixelVector = Vector(pixel);
             Ray* pixelRay = new Ray(eye, pixelVector);
 
-//            RGB* actualColor = castRay(pixelRay, scene, 0);
             RGB* actualColor = pixelRay->castRay(scene);
             if (actualColor == NULL) {
                 actualColor = new RGB(BACKGROUND_COLOR);
@@ -123,95 +115,6 @@ int main(int argc, char** argv) {
     delete inputFile;
 
     return 0;
-}
-
-/*
- * Casts a ray into the scene and determines the color at its origin.
- * The depth is the number of times this function
- */
-RGB *castRay(const Ray *ray, Scene scene, int depth) {
-    std::pair<const Vector*, const Object*> intersection = findIntersection(ray, scene.objects);
-    const Vector* intersectionPoint = intersection.first;
-    const Object* intersectedObject = intersection.second;
-    if (intersectionPoint != NULL) {
-        return determineColor(intersectedObject, intersectionPoint, scene);
-    } else {
-        return new RGB(BACKGROUND_COLOR);
-    }
-}
-
-/*
- * Determines the color of the object at the intersectionPoint from the lights.
- * Sum(lightColor*materialColor*cos(angleFromNormalToLight).
- * Returns a new RGB object that must be destroyed.
- */
-RGB *determineColor(const Object *object, const Vector *intersectionPoint, Scene scene) {
-    RGB* actualColor = new RGB(0, 0, 0);
-    const RGB* materialColor = object->getColor();
-    Vector *normal = object->getNormal(intersectionPoint);
-
-    for (int i = 0; i < scene.lights.size(); i++) {
-        Ray *lightRay = new Ray(*intersectionPoint, *(scene.lights[i]->getLocation()));
-        lightRay->move(EPSILON); // Move out to prevent ray from incorrectly colliding with the object.
-
-        const Object *intersectedObject = intersectObject(lightRay, scene.objects);
-
-        if (intersectedObject == NULL) { // Not in shadow
-            double angle = normal->angleBetween(*lightRay);
-
-            RGB *colorFromLight = new RGB(*materialColor);
-            // if cos(angle) < 0 then in shadow so multiply by 0
-            colorFromLight->multiply(std::max(0.0, cos(angle)));
-            colorFromLight->multiply(scene.lights[i]->getColor());
-
-            actualColor->add(colorFromLight);
-
-            delete colorFromLight;
-        } else if (intersectedObject->getReflectivity() > 0) { // reflection
-
-        }
-    }
-
-    return actualColor;
-}
-
-/*
- * Returns the intersected object if the ray intersects any object in the vector of objects.
- * Returns NULL if the ray does not intersect any objects.
- */
-const Object * intersectObject(const Ray *ray, std::vector<const Object *>& objects) {
-    for (int i = 0; i < objects.size(); i++) {
-        const Vector* intersectionPoint = objects[i]->intersect(ray);
-        if (intersectionPoint != NULL) {
-            return objects[i];
-        }
-    }
-
-    return NULL;
-}
-
-/*
- * Finds the interesection between the ray and the closest object.
- * Returns the intersection point, which is a new vector and must be deleted.
- * Also returns the object that was intersected.
- */
-std::pair<const Vector *, const Object *> findIntersection(const Ray *ray, std::vector<const Object *> &objects) {
-    const Vector* closestPoint = NULL;
-    const Object* closestObject = NULL;
-    double distanceClosest = INFINITY;
-    for (int i = 0; i < objects.size(); i++) {
-        const Vector* intersectionPoint = objects[i]->intersect(ray);
-        if (intersectionPoint != NULL) {
-            double intersectDistance = ray->getStart()->distance(intersectionPoint);
-            if (intersectDistance < distanceClosest) {
-                closestObject = objects[i];
-                closestPoint = intersectionPoint;
-                distanceClosest = intersectDistance;
-            }
-        }
-
-    }
-    return std::make_pair(closestPoint, closestObject);
 }
 
 
