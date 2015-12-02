@@ -83,4 +83,5 @@ void Sphere::print() const {
     this->getColor()->print();
     std::cout << std::endl;
     std::cout << "      radius: " << this->radius << std::endl;
+    std::cout << "      reflectivity: " << this->getReflectivity() << std::endl;
 }

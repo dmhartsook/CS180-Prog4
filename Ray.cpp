@@ -97,7 +97,8 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
             actualColor->add(colorFromLight);
 
             delete colorFromLight;
-        } else if (objectBlockingLight->getReflectivity() > 0) { // reflection
+        }
+        if (object->getReflectivity() > 0) { // reflection
             Vector *reflectedVector = this->createReflectedVector(normal);
             reflectedVector->add(intersectionPoint); // move it to start at the intersection point
             Ray* reflectedRay = new Ray(*intersectionPoint, *reflectedVector);
@@ -105,7 +106,7 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
             RGB* reflectionColor = reflectedRay->castRay(scene, depth + 1);
 
             if (reflectionColor != NULL) {
-                reflectionColor->multiply(objectBlockingLight->getReflectivity());
+                reflectionColor->multiply(object->getReflectivity());
                 actualColor->add(reflectionColor);
             }
 
