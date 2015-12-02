@@ -8,6 +8,8 @@
 #include "Ray.h"
 #include "Sphere.h"
 #include <utility>
+#include "Light.h"
+#include "InputFile.h"
 #include <vector>
 
 static const char *const IMAGE_FILENAME = "scene.ppm";
@@ -25,10 +27,11 @@ int main(int argc, char** argv) {
 
     InputFile* inputFile;
     if (argc > 1) {
-    	inputFile = new InputFile(argv[1]);
+        inputFile = new InputFile(argv[1]);
     } else {
-    	inputFile = new InputFile("two_spheres_shadow.txt");
+        inputFile = new InputFile("two_spheres.txt");
     }
+
     std::vector<const Object*> objects = inputFile->getObjects();
     std::vector<const Light*> lights = inputFile->getLights();
 
@@ -42,7 +45,7 @@ int main(int argc, char** argv) {
 
 //    RGB* sphereColor = new RGB(1, 1, 1);
 //    Vector* sphereCenter = new Vector (0, 0, -5);
-//    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 2);
+//    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 1);
 //    delete sphereColor;
 //    delete sphereCenter;
 //
@@ -66,6 +69,27 @@ int main(int argc, char** argv) {
 //    r1->add(r2);
 //    r1->print();
 //    std::cout << std::endl;
+//
+//    return 0;
+
+//    Vector start = Vector(3, 0, 0);
+//    Vector end = Vector(0,0, -4);
+//    Ray* ray = new Ray(start, end);
+//    std::cout << "original ray: ";
+//    ray->print();
+//    Vector point = Vector(0, 0, -4);
+//    std::cout << "reflected at point ";
+//    point.print();
+//    Vector* normal = sphere->getNormal(&point);
+//    Vector* reflectedDir = ray->createReflectedVector(normal);
+//    std::cout << "reflectedDir: ";
+//    reflectedDir->print();
+//
+//    reflectedDir->add(&point);
+//
+//    std::cout << "reflect: ";
+//    Ray* reflect = new Ray(point, *reflectedDir);
+//    reflect->print();
 //
 //    return 0;
 

@@ -7,6 +7,10 @@ Ray::Ray(Vector start, Vector end) : Vector(end.toArray()) {
     this->start = startVector;
 }
 
+Ray::Ray(const Ray &other) : Vector(other) {
+    this->start = other.getStart()->clone();
+}
+
 Ray::~Ray() {
     delete this->start;
 }

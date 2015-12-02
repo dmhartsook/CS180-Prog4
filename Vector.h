@@ -9,8 +9,14 @@
 class Vector {
 public:
     Vector(double, double, double);
-    Vector(double*); // Pass [x, y, z]
+    Vector(double*); // Pass [x, y, z
     Vector(const Vector&);
+
+    /*
+     * Creates a new vector (that must be destroyed) that is the reflected direction of this vector around the passed
+     * normal vector.
+     */
+    Vector* createReflectedVector(const Vector *normal) const;
 
     void normalize();
     Vector* clone() const;
@@ -29,7 +35,7 @@ public:
     // Returns the angle between this and the passed vector in RADIANS
     double angleBetween(Vector) const;
 
-    // Calculates the distance from this vector to the passed vector
+    // Calculates the distance from this vector to the passed vectorr
     double distance(const Vector *other) const;
 
 private:

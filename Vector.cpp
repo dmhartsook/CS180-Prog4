@@ -97,3 +97,21 @@ double Vector::distance(const Vector *other) const {
     double dz = other->get(2) - this->vector[2];
     return sqrt(dx*dx + dy*dy + dz*dz);
 }
+
+Vector *Vector::createReflectedVector(const Vector *normalConst) const {
+    Vector* d = new Vector(*this);
+    d->normalize();
+    d->multiply(-1); // switch the direction
+
+    Vector* normal = normalConst->clone();
+    normal->normalize();
+
+    double normalDotD = normal->dot(d);
+
+    normal->multiply(2); // 2n
+    normal->multiply(normalDotD); // n = 2n(n * d)
+    d->add(normal); // d = d + 2n(n * d)
+
+    delete normal;
+    return d;
+}
