@@ -44,7 +44,6 @@ Vector *Plane::intersect(const Ray *ray) const {
     n->normalize();
     Vector *o = ray->getStart()->clone();
     const Vector *c = this->getCenter();
-
     double nDotD = n->dot(d);
     if (nDotD == 0) { // Parallel to plane
         return NULL;
@@ -73,8 +72,8 @@ Vector *Plane::intersect(const Ray *ray) const {
 
     Vector* p = new Vector(*collisionPoint);
     p->subtract(c);
-    double r = this->rightDir->dot(collisionPoint); // r = r * (p - c)
-    double u = this->headup->dot(collisionPoint); // u = u * (p - c)
+    double r = this->rightDir->dot(p); // r = r * (p - c)
+    double u = this->headup->dot(p); // u = u * (p - c)
 
     delete d;
     delete p;

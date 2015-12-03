@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
 //
 //    const Object* plane = scene.objects[0];
 //    Vector start(0,0,0);
-//    Vector end(1, 1, -5);
+//    Vector end(0, 0, -5);
 //    Ray* ray = new Ray(start, end);
 //    Vector* pt = plane->intersect(ray);
 //
@@ -114,8 +114,6 @@ int main(int argc, char** argv) {
             RGB* actualColor = pixelRay->castRay(scene, 0);
             if (actualColor == NULL) {
                 actualColor = new RGB(BACKGROUND_COLOR);
-            } else {
-//                actualColor->print();
             }
             imagePlane->setPixelColor(i, j, actualColor);
 
