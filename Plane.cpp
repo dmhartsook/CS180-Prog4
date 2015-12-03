@@ -7,15 +7,17 @@ Plane::Plane(double xDimension, double yDimension, const Vector *center, const R
     this->xDimension = xDimension;
     this->yDimension = yDimension;
     this->normal = normal->clone();
-    this->headup = headup->clone();
     Vector* right = headup->createCrossProduct(normal);
     right->normalize();
     this->rightDir = right;
+    Vector* up = normal->createCrossProduct(right);
+    up->normalize();
+    this->upDir = up;
 }
 
 Plane::~Plane() {
     delete this->normal;
-    delete this->headup;
+    delete this->upDir;
     delete this->rightDir;
 }
 
@@ -29,8 +31,8 @@ void Plane::print() const {
     std::cout << std::endl;
     std::cout << "      normal: ";
     this->normal->print();
-    std::cout << "      headup: ";
-    this->headup->print();
+    std::cout << "      upDir: ";
+    this->upDir->print();
     std::cout << "      rightDir: ";
     this->rightDir->print();
     std::cout << "      reflectivity: " << this->getReflectivity() << std::endl;
@@ -73,7 +75,7 @@ Vector *Plane::intersect(const Ray *ray) const {
     Vector* p = new Vector(*collisionPoint);
     p->subtract(c);
     double r = this->rightDir->dot(p); // r = r * (p - c)
-    double u = this->headup->dot(p); // u = u * (p - c)
+    double u = this->upDir->dot(p); // u = u * (p - c)
 
     delete d;
     delete p;

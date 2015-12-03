@@ -14,7 +14,7 @@ public:
     ~Ray();
 
     /*
-     * Determines the color of the first spot the ray collides with
+     * Returns a new RGB* containing the color of the first spot the ray collides with.
      * Depth is the recursion depth of the call, maxes out at MAX_CASTING_DEPTH
      * Returns Null if the ray does not collide with anything.
      */

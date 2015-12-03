@@ -111,6 +111,7 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
 
             delete reflectedRay;
             delete reflectedVector;
+            delete reflectionColor;
         }
     }
 

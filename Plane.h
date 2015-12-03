@@ -29,7 +29,7 @@ private:
     double xDimension;
     double yDimension;
     const Vector* normal;
-    const Vector* headup;
+    const Vector* upDir;
     const Vector* rightDir;
 };
 
