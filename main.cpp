@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         inputFile = new InputFile(argv[1]);
     } else {
-        inputFile = new InputFile("two_spheres.txt");
+        inputFile = new InputFile("examples/two_spheres.txt");
     }
 
     Scene scene;
@@ -54,11 +54,11 @@ int main(int argc, char** argv) {
 //
 //    return 0;
 
-//    RGB* sphereColor = new RGB(1, 1, 1);
-//    Vector* sphereCenter = new Vector (0, 0, -5);
-//    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 1);
-//    delete sphereColor;
-//    delete sphereCenter;
+    RGB* sphereColor = new RGB(1, 1, 1);
+    Vector* sphereCenter = new Vector (0, 0, -5);
+    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 1);
+    delete sphereColor;
+    delete sphereCenter;
 //
 //    RGB* lightColor = new RGB(1, 1, 1);
 //    Vector* lightLocation = new Vector(1, 1,1);
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
 //
 //    return 0;
 
-//    Vector start = Vector(3, 0, 0);
+//    Vector start = Vector(4, 0, 0);
 //    Vector end = Vector(0,0, -4);
 //    Ray* ray = new Ray(start, end);
 //    std::cout << "original ray: ";
