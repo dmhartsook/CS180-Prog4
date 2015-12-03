@@ -42,7 +42,6 @@ void Ray::move(double amount) {
 
 RGB *Ray::castRay(Scene &scene, int depth) const {
     if (depth >= MAX_CASTING_DEPTH) {
-//    if (depth >= 2) {
         return NULL;
     }
 

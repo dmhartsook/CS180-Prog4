@@ -115,3 +115,10 @@ Vector *Vector::createReflectedVector(const Vector *normalConst) const {
     delete normal;
     return d;
 }
+
+ Vector *Vector::createCrossProduct(const Vector *other) const {
+    double crossProductX = (this->get(1) * other->get(2)) - (this->get(2) * other->get(1));
+    double crossProductY = (this->get(2) * other->get(0)) - (this->get(0) * other->get(2));
+    double crossProductZ = (this->get(0) * other->get(1)) - (this->get(1) * other->get(0));
+    return new Vector(crossProductX, crossProductY, crossProductZ);
+}

@@ -29,7 +29,7 @@ InputFile::InputFile(const char *filename) {
             this->objects.push_back(plane);
         } else if (objectType.compare("light") == 0) {
             Light* light = createLight(file);
-            lights.push_back(light);
+            this->lights.push_back(light);
         }
     }
 

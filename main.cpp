@@ -36,9 +36,23 @@ int main(int argc, char** argv) {
 //    const int imagePlaneSize = 200;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
-//    for (int i = 0; i < objects.size(); i++){
-//        objects[i]->print();
+//    for (int i = 0; i < scene.objects.size(); i++){
+//        scene.objects[i]->print();
 //    }
+//
+//    const Object* plane = scene.objects[0];
+//    Vector start(0,0,0);
+//    Vector end(1, 1, -5);
+//    Ray* ray = new Ray(start, end);
+//    Vector* pt = plane->intersect(ray);
+//
+//    if (pt != NULL) {
+//        pt->print();
+//    } else {
+//        std::cout << "NULL" << std::endl;
+//    }
+//
+//    return 0;
 
 //    RGB* sphereColor = new RGB(1, 1, 1);
 //    Vector* sphereCenter = new Vector (0, 0, -5);
@@ -100,6 +114,8 @@ int main(int argc, char** argv) {
             RGB* actualColor = pixelRay->castRay(scene, 0);
             if (actualColor == NULL) {
                 actualColor = new RGB(BACKGROUND_COLOR);
+            } else {
+//                actualColor->print();
             }
             imagePlane->setPixelColor(i, j, actualColor);
 

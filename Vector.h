@@ -18,6 +18,12 @@ public:
      */
     Vector* createReflectedVector(const Vector *normal) const;
 
+    /*
+     * Creates and returns a new vector (that must be destroyed) that is the cross product of this vector and the
+     * passed vector.
+     */
+    Vector* createCrossProduct(const Vector* other) const;
+
     void normalize();
     Vector* clone() const;
     void add(const Vector* other); // this = this + other

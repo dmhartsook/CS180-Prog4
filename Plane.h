@@ -23,13 +23,14 @@ public:
     Vector* intersect(const Ray *) const;
     Vector* getNormal(const Vector *point) const;
 
-    void print();
+    void print() const;
 
 private:
     double xDimension;
     double yDimension;
     const Vector* normal;
     const Vector* headup;
+    const Vector* rightDir;
 };
 
 
