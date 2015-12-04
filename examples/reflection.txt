@@ -9,7 +9,7 @@ plane
 	dimension 4 4
 	center 0 -1 -5
 	normal 0 1 0
-	headup 0 1 0
+	headup 0 0 1
 	reflectivity 1
 	color .5 .5 .5
 

@@ -5,7 +5,7 @@
 #ifndef CS180_PROG4_INPUTFILE_H
 #define CS180_PROG4_INPUTFILE_H
 
-
+#include <array>
 #include <vector>
 #include "Object.h"
 #include "Light.h"
@@ -26,6 +26,7 @@ public:
     int getCameraResolution() const;
 
 private:
+    static const std::array<std::string, 3> SCENE_OBJECT_TYPES;
     int cameraResolution;
     std::vector<const Object*> objects;
     std::vector<const Light*> lights;
