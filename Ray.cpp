@@ -92,11 +92,6 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
         	// Intersected an object on the way to the light but make sure the object isn't at the light
         	// i.e. a light in a plane: the plane shouldn't prevent light from shining
         	double distanceToLight = pointBlockingLight->distance(lightLocation);
-        	if (distanceToLight < 2.91) {
-//        		objectBlockingLight->print();
-//        		scene.lights[i]->print();
-//        		std::cout << "distance: " << distanceToLight << std::endl;
-        	}
         	if (distanceToLight < EPSILON) {
         		// Intersection at the light - pretend there was no intersection
         		objectBlockingLight = NULL;

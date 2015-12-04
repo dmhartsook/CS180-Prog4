@@ -100,43 +100,43 @@ int main(int argc, char** argv) {
 //
 //    return 0;
 
-    RGB* lightColor = new RGB(.7, .7, 1);
-    Vector* lightLocation = new Vector(1, 0,-4);
-    const Light* light = new Light(lightLocation, lightColor);
-    delete lightColor;
-    delete lightLocation;
-
-    Vector center(0, -1, -5);
-    Vector normal(0, 1, 0);
-    Vector headup(0, 1, 0);
-    RGB color(.5, .5, .5);
-    Plane* plane = new Plane(4, 4, &center, &color, &normal, &headup, 1);
-
-    std::cout << "cross headup and normal: ";
-    Vector* cross = headup.createCrossProduct(&normal);
-    cross->print();
-
-    std::vector<const Object*> objects;
-    objects.push_back(plane);
-
-    Vector point(0, .5, -7);
-    Ray *lightRay = new Ray(point, *(light->getLocation()));
-
-    std::cout << "light ray: ";
-    lightRay->print();
-
-    std::pair<const Vector *, const Object *> intersectionBlockingLight =
-            lightRay->intersectObject(objects);
-    const Vector* pointBlockingLight = intersectionBlockingLight.first;
-    const Object* intersected = intersectionBlockingLight.second;
-
-    if (intersected != NULL) {
-        intersected->print();
-    } else {
-        std::cout << "NULL " << std::endl;
-    }
-
-    return 0;
+//    RGB* lightColor = new RGB(.7, .7, 1);
+//    Vector* lightLocation = new Vector(1, 0,-4);
+//    const Light* light = new Light(lightLocation, lightColor);
+//    delete lightColor;
+//    delete lightLocation;
+//
+//    Vector center(0, -1, -5);
+//    Vector normal(0, 1, 0);
+//    Vector headup(0, 1, 0);
+//    RGB color(.5, .5, .5);
+//    Plane* plane = new Plane(4, 4, &center, &color, &normal, &headup, 1);
+//
+//    std::cout << "cross headup and normal: ";
+//    Vector* cross = headup.createCrossProduct(&normal);
+//    cross->print();
+//
+//    std::vector<const Object*> objects;
+//    objects.push_back(plane);
+//
+//    Vector point(0, .5, -7);
+//    Ray *lightRay = new Ray(point, *(light->getLocation()));
+//
+//    std::cout << "light ray: ";
+//    lightRay->print();
+//
+//    std::pair<const Vector *, const Object *> intersectionBlockingLight =
+//            lightRay->intersectObject(objects);
+//    const Vector* pointBlockingLight = intersectionBlockingLight.first;
+//    const Object* intersected = intersectionBlockingLight.second;
+//
+//    if (intersected != NULL) {
+//        intersected->print();
+//    } else {
+//        std::cout << "NULL " << std::endl;
+//    }
+//
+//    return 0;
 
 
     for (int i = 0; i < imagePlaneSize; i++) {
