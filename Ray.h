@@ -20,8 +20,8 @@ public:
      */
     RGB* castRay(Scene& scene, int depth) const;
 
-    // Moves the ray by amount. Adjusts the start and end of the ray.
-    void move(double amount);
+    // Moves the ray by amount. Adjusts the start of the ray.
+    void moveStart(double amount);
 
     const Vector* getStart() const;
 
@@ -32,10 +32,11 @@ private:
     Vector* start;
 
     /*
-     * Returns the intersected object if the ray intersects any object in the vector of objects.
+     * Returns the intersected object and intersection point if the ray intersects any object
+     * in the vector of objects.
      * Returns NULL if the ray does not intersect any objects.
      */
-    const Object *intersectObject(std::vector<const Object *> &objects) const;
+    std::pair<const Vector *, const Object *> intersectObject(std::vector<const Object *> &objects) const;
 
     /*
      * Finds the interesection between the ray and the closest object.

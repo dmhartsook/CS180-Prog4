@@ -18,6 +18,8 @@ public:
     const Vector* getLocation() const;
     const RGB* getColor() const;
 
+    void print() const;
+
 private:
     Vector* location;
     RGB* color;
