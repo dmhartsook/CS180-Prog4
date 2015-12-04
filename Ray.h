@@ -27,6 +27,8 @@ public:
 
     void print() const;
 
+    std::pair<const Vector *, const Object *> intersectObject(std::vector<const Object *> &objects) const;
+
 private:
     static const int MAX_CASTING_DEPTH = 8;
     Vector* start;
@@ -36,7 +38,7 @@ private:
      * in the vector of objects.
      * Returns NULL if the ray does not intersect any objects.
      */
-    std::pair<const Vector *, const Object *> intersectObject(std::vector<const Object *> &objects) const;
+//    std::pair<const Vector *, const Object *> intersectObject(std::vector<const Object *> &objects) const;
 
     /*
      * Finds the interesection between the ray and the closest object.
