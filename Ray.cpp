@@ -31,11 +31,10 @@ void Ray::print() const {
 }
 
 
-void Ray::move(double amount) {
+void Ray::moveStart(double amount) {
 	Vector* moveVector = this->clone();
 	moveVector->normalize();
 	moveVector->multiply(amount);
-	this->add(moveVector);
 	this->start->add(moveVector);
 	delete moveVector;
 }
@@ -80,12 +79,32 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
     Vector *normal = object->getNormal(intersectionPoint);
 
     for (int i = 0; i < scene.lights.size(); i++) {
-        Ray *lightRay = new Ray(*intersectionPoint, *(scene.lights[i]->getLocation()));
-        lightRay->move(EPSILON); // Move out to prevent ray from incorrectly colliding with the object.
+    	const Vector* lightLocation = scene.lights[i]->getLocation();
+        Ray *lightRay = new Ray(*intersectionPoint, *lightLocation);
+        lightRay->moveStart(EPSILON); // Move out to prevent ray from incorrectly colliding with the object.
 
-        const Object *objectBlockingLight = lightRay->intersectObject(scene.objects);
+        std::pair<const Vector *, const Object *> intersectionBlockingLight =
+        		lightRay->intersectObject(scene.objects);
+        const Vector* pointBlockingLight = intersectionBlockingLight.first;
+        const Object* objectBlockingLight = intersectionBlockingLight.second;
 
-        if (objectBlockingLight == NULL) { // Not in shadow
+        if (pointBlockingLight != NULL) {
+        	// Intersected an object on the way to the light but make sure the object isn't at the light
+        	// i.e. a light in a plane: the plane shouldn't prevent light from shining
+        	double distanceToLight = pointBlockingLight->distance(lightLocation);
+        	if (distanceToLight < 2.91) {
+        		objectBlockingLight->print();
+        		scene.lights[i]->print();
+        		std::cout << "distance: " << distanceToLight << std::endl;
+        	}
+        	if (distanceToLight < .01) {
+        		// Intersection at the light - pretend there was no intersection
+        		objectBlockingLight = NULL;
+        		pointBlockingLight = NULL;
+        	}
+        }
+
+        if (objectBlockingLight == NULL ) { // Not in shadow
             double angle = normal->angleBetween(*lightRay);
 
             RGB *colorFromLight = new RGB(*materialColor);
@@ -99,9 +118,9 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
         }
         if (object->getReflectivity() > 0) { // reflection
             Vector *reflectedVector = this->createReflectedVector(normal);
-            reflectedVector->add(intersectionPoint); // move it to start at the intersection point
+            reflectedVector->add(intersectionPoint); // move it to start at the intersectionBlockingLight point
             Ray* reflectedRay = new Ray(*intersectionPoint, *reflectedVector);
-            reflectedRay->move(EPSILON);
+            reflectedRay->moveStart(EPSILON);
             RGB* reflectionColor = reflectedRay->castRay(scene, depth + 1);
 
             if (reflectionColor != NULL) {
@@ -118,13 +137,16 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
     return actualColor;
 }
 
-const Object *Ray::intersectObject(std::vector<const Object *> &objects) const {
-    for (int i = 0; i < objects.size(); i++) {
-        const Vector* intersectionPoint = objects[i]->intersect(this);
+std::pair<const Vector *, const Object *> Ray::intersectObject(std::vector<const Object *> &objects) const {
+	const Vector* intersectionPoint = NULL;
+
+	for (int i = 0; i < objects.size(); i++) {
+        intersectionPoint = objects[i]->intersect(this);
         if (intersectionPoint != NULL) {
-            return objects[i];
+            return std::make_pair(intersectionPoint, objects[i]);
         }
     }
 
-    return NULL;
+	const Object* objectNull = NULL;
+    return std::make_pair(intersectionPoint, objectNull);
 }

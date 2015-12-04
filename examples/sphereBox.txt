@@ -1,0 +1,18 @@
+camera 1000
+
+sphere
+	dimension .5
+	center 0 1 -5
+	color 1.0 1.0 1.0
+
+plane
+	dimension 4 4
+	center 0 0 -10
+	normal 0 1 1
+	headup 0 1 0
+	color 1.0 1.0 1.0
+
+
+light
+	location 1 1 1
+	color 1 1 1
