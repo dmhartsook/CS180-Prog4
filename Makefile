@@ -5,4 +5,4 @@ raytracer: $(SOURCES)
 	$(CC) -o raytracer $(SOURCES)
 
 clean:
-	rm -f *.o raytracer
+	rm -f *.o raytracer examples/*.ppm

@@ -13,7 +13,7 @@
 #include "Scene.h"
 #include <vector>
 
-static const char *const IMAGE_FILENAME = "scene.ppm";
+static const char *const DEFAULT_IMAGE_FILENAME = "scene.ppm";
 static const RGB BACKGROUND_COLOR(0, 0, 0);
 
 void writePpm(const ImagePlane *, const char *filename);
@@ -22,10 +22,14 @@ int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
 
     InputFile* inputFile;
+    char* filename;
     if (argc > 1) {
         inputFile = new InputFile(argv[1]);
+        filename = strtok(argv[1], ".");
+        strcat(filename, ".ppm");
     } else {
-        inputFile = new InputFile("examples/two_spheres.txt");
+        std::cerr << "Please specify an input file to read the scene data from." << std::endl;
+        return 0;
     }
 
     Scene scene;
@@ -123,7 +127,9 @@ int main(int argc, char** argv) {
         }
     }
 
-    writePpm(imagePlane, IMAGE_FILENAME);
+    // TODO: Remove default name
+    writePpm(imagePlane, DEFAULT_IMAGE_FILENAME);
+//    writePpm(imagePlane, filename);
 
     delete imagePlane;
     delete inputFile;
