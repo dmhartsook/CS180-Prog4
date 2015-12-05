@@ -13,7 +13,7 @@ class Ray;
 
 class Object {
 public:
-    Object(const Vector *center, const RGB *color, double reflectivity, Texture* texture);
+    Object(const Vector *center, const RGB *color, double reflectivity, const Texture *texture);
     virtual ~Object();
 
     const RGB* getColor() const;

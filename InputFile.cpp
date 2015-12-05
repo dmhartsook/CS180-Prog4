@@ -86,6 +86,7 @@ Sphere* InputFile::createSphere(std::ifstream &file) const {
 
     delete center;
     delete color;
+    delete texture;
 
     return sphere;
 }
@@ -130,11 +131,12 @@ int InputFile::getCameraResolution() const {
 
 Plane * InputFile::createPlane(std::ifstream &file) {
     double xLength, yLength;
-    Vector* center;
-    Vector* normal;
-    Vector* headup;
-    RGB* color;
+    Vector* center = NULL;
+    Vector* normal = NULL;
+    Vector* headup = NULL;
+    RGB* color = NULL;
     double reflectivity = 0.0;
+    Texture* texture = NULL;
 
     std::string attribute;
     file >> attribute;
@@ -173,7 +175,9 @@ Plane * InputFile::createPlane(std::ifstream &file) {
         } else if (attribute.compare("reflectivity") == 0) {
             file >> reflectivity;
         } else if (attribute.compare("texture") == 0) {
-            std::cerr << "TODO: implement reading texture value" << std::endl;
+            char textureFile[50];
+            file >> textureFile;
+            texture = new Texture(textureFile);
         }
         file >> attribute;
     }
@@ -181,12 +185,13 @@ Plane * InputFile::createPlane(std::ifstream &file) {
     // Onto the next object so move backwards so that the outer loop can determine the object type
     file.seekg(-attribute.length(), file.cur);
 
-    Plane* plane = new Plane(xLength, yLength, center, color, normal, headup, reflectivity);
+    Plane* plane = new Plane(xLength, yLength, center, color, normal, headup, reflectivity, texture);
 
     delete center;
     delete color;
     delete normal;
     delete headup;
+    delete texture;
 
     return plane;
 }

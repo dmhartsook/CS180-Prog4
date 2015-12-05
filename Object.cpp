@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Object.h"
 
-Object::Object(const Vector *centerVals, const RGB *color, double reflectivity, Texture* texture) {
+Object::Object(const Vector *centerVals, const RGB *color, double reflectivity, const Texture *texture) {
     assert(centerVals != NULL);
     if (color == NULL) {
         // TODO: REMOVE THIS
@@ -17,7 +17,11 @@ Object::Object(const Vector *centerVals, const RGB *color, double reflectivity, 
     assert(reflectivity >= 0.0 && reflectivity <= 1);
     this->reflectivity = reflectivity;
 
-    this->texture = texture;
+    if (texture == NULL) {
+        this->texture = NULL;
+    } else {
+        this->texture = new Texture(*texture);
+    }
 }
 
 Object::~Object() {

@@ -3,7 +3,8 @@
 #include "Ray.h"
 
 Plane::Plane(double xDimension, double yDimension, const Vector *center, const RGB *color, const Vector *normal,
-             const Vector *headup, double reflectivity) : Object(center, color, reflectivity, NULL) {
+             const Vector *headup, double reflectivity, Texture *texture)
+        : Object(center, color, reflectivity, texture) {
     this->xDimension = xDimension;
     this->yDimension = yDimension;
     this->normal = normal->clone();
@@ -26,9 +27,11 @@ void Plane::print() const {
     std::cout << "      x dimension: " << this->xDimension << ", y dimension: " << this->yDimension << std::endl;
     std::cout << "      center: ";
     this->getCenter()->print();
-    std::cout << "      color: ";
-    this->getColor()->print();
-    std::cout << std::endl;
+    if (this->getColor() != NULL) {
+        std::cout << "      color: ";
+        this->getColor()->print();
+        std::cout << std::endl;
+    }
     std::cout << "      normal: ";
     this->normal->print();
     std::cout << "      upDir: ";
@@ -36,6 +39,10 @@ void Plane::print() const {
     std::cout << "      rightDir: ";
     this->rightDir->print();
     std::cout << "      reflectivity: " << this->getReflectivity() << std::endl;
+    if (this->getTexture() != NULL) {
+        std::cout << "      texture: ";
+        this->getTexture()->print();
+    }
 }
 
 Vector *Plane::intersect(const Ray *ray) const {

@@ -15,9 +15,10 @@ public:
           double yDimension,
           const Vector *center,
           const RGB *color,
-          const Vector* normal,
-          const Vector* headup,
-          double reflectivity);
+          const Vector *normal,
+          const Vector *headup,
+          double reflectivity,
+          Texture *texture);
     ~Plane();
 
     Vector* intersect(const Ray *) const;
