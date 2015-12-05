@@ -12,8 +12,13 @@ bool double_equals(double a, double b, double epsilon = 0.00001) {
 
 
 Sphere::Sphere(const Vector *center, const RGB *color, double reflectivity, double radius)
-        : Object(center, color, reflectivity) {
+        : Object(center, color, reflectivity, NULL) {
 
+    this->radius = radius;
+}
+
+Sphere::Sphere(const Vector *center, const RGB *color, double reflectivity, double radius, Texture *texture)
+        : Object(center, color, reflectivity, texture) {
     this->radius = radius;
 }
 
@@ -79,9 +84,15 @@ void Sphere::print() const {
     std::cout << "Sphere:" << std::endl;
     std::cout << "      center: ";
     this->getCenter()->print();
-    std::cout << "      color: ";
-    this->getColor()->print();
+    if (this->getColor() != NULL) {
+        std::cout << "      color: ";
+        this->getColor()->print();
+    }
     std::cout << std::endl;
     std::cout << "      radius: " << this->radius << std::endl;
     std::cout << "      reflectivity: " << this->getReflectivity() << std::endl;
+    if (this->getTexture() != NULL) {
+        std::cout << "      texture: ";
+        this->getTexture()->print();
+    }
 }

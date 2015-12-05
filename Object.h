@@ -7,17 +7,19 @@
 
 #include "RGB.h"
 #include "Vector.h"
+#include "Texture.h"
 
 class Ray;
 
 class Object {
 public:
-    Object(const Vector *center, const RGB *color, double reflectivity);
+    Object(const Vector *center, const RGB *color, double reflectivity, Texture* texture);
     virtual ~Object();
 
     const RGB* getColor() const;
     const Vector* getCenter() const;
     double getReflectivity() const;
+    const Texture* getTexture() const;
 
     /*
      * Returns the closest collision point if there is one and NULL if there is no collision.
@@ -37,6 +39,7 @@ private:
     Vector* center;
     RGB* color;
     double reflectivity;
+    Texture* texture;
 };
 
 

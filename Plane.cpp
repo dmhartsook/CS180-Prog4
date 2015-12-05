@@ -3,7 +3,7 @@
 #include "Ray.h"
 
 Plane::Plane(double xDimension, double yDimension, const Vector *center, const RGB *color, const Vector *normal,
-             const Vector *headup, double reflectivity) : Object(center, color, reflectivity) {
+             const Vector *headup, double reflectivity) : Object(center, color, reflectivity, NULL) {
     this->xDimension = xDimension;
     this->yDimension = yDimension;
     this->normal = normal->clone();

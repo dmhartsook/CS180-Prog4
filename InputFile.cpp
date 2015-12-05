@@ -2,6 +2,7 @@
 #include "InputFile.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Texture.h"
 #include <iostream>
 #include <assert.h>
 
@@ -43,9 +44,10 @@ InputFile::~InputFile() {
 
 Sphere* InputFile::createSphere(std::ifstream &file) const {
     double dimension;
-    Vector* center;
-    RGB* color;
+    Vector* center = NULL;
+    RGB* color = NULL;
     double reflectivity = 0.0;
+    Texture* texture = NULL;
 
     std::string attribute;
     file >> attribute;
@@ -70,15 +72,17 @@ Sphere* InputFile::createSphere(std::ifstream &file) const {
         } else if (attribute.compare("reflectivity") == 0) {
             file >> reflectivity;
         } else if (attribute.compare("texture") == 0) {
-            std::cerr << "TODO: implement reading texture value" << std::endl;
+            char textureFile[50];
+            file >> textureFile;
+            texture = new Texture(textureFile);
         }
         file >> attribute;
     }
 
     // Onto the next object so move backwards so that the outer loop can determine the object type
-    file.seekg(-attribute.length(), file.cur);
+    file.seekg(-1 * attribute.length(), file.cur);
 
-    Sphere* sphere = new Sphere(center, color, reflectivity, dimension);
+    Sphere* sphere = new Sphere(center, color, reflectivity, dimension, texture);
 
     delete center;
     delete color;

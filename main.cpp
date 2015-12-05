@@ -37,12 +37,11 @@ int main(int argc, char** argv) {
     scene.lights = inputFile->getLights();
 
     const int imagePlaneSize = inputFile->getCameraResolution();
-//    const int imagePlaneSize = 200;
     ImagePlane* imagePlane = new ImagePlane(imagePlaneSize, imagePlaneSize);
 
-//    for (int i = 0; i < scene.objects.size(); i++){
-//        scene.objects[i]->print();
-//    }
+    for (int i = 0; i < scene.objects.size(); i++){
+        scene.objects[i]->print();
+    }
 //
 //    const Object* plane = scene.objects[0];
 //    Vector start(0,0,0);
