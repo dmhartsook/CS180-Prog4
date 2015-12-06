@@ -11,12 +11,10 @@
 #include "Light.h"
 #include "InputFile.h"
 #include "Scene.h"
-#include <vector>
+#include "Ppm.h"
 
 static const char *const DEFAULT_IMAGE_FILENAME = "scene.ppm";
 static const RGB BACKGROUND_COLOR(0, 0, 0);
-
-void writePpm(const ImagePlane *, const char *filename);
 
 int main(int argc, char** argv) {
     Vector eye = Vector(0, 0, 0);
@@ -170,9 +168,11 @@ int main(int argc, char** argv) {
         }
     }
 
+
+
     // TODO: Remove default name
-    writePpm(imagePlane, DEFAULT_IMAGE_FILENAME);
-//    writePpm(imagePlane, filename);
+    Ppm::writePpm(imagePlane, DEFAULT_IMAGE_FILENAME);
+//    Ppm::writePpm(imagePlane, filename);
 
     delete imagePlane;
     delete inputFile;
@@ -181,25 +181,3 @@ int main(int argc, char** argv) {
 }
 
 
-void writePpm(const ImagePlane *imagePlane, const char *filename) {
-    std::ofstream image;
-    image.open(filename, std::ios::binary);
-
-    image << "P3" << "\n"
-        << imagePlane->getWidth() << " " << imagePlane->getHeight() << "\n"
-        << "255\n";
-
-    for (int j = imagePlane->getHeight() - 1; j >= 0; j--) {
-        for (int i = 0; i < imagePlane->getWidth(); i++)  {
-            const RGB *color = imagePlane->getPixelColor(i, j);
-            int* colorVals = color->convertTo255Values();
-
-            image << colorVals[0] << " " <<  colorVals[1] << " " << colorVals[2] << "  ";
-
-            delete[] colorVals;
-        }
-        image << "\n";
-    }
-
-    image.close();
-}
