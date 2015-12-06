@@ -24,6 +24,9 @@ public:
     Vector* intersect(const Ray *) const;
     Vector* getNormal(const Vector *point) const;
 
+    double findU(const Vector* point) const;
+    double findV(const Vector* point) const;
+
     void print() const;
 
 private:

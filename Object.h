@@ -35,6 +35,12 @@ public:
 
     virtual void print() const {};
 
+    // Returns the computed parameter u for the object at the given point
+    virtual double findU(const Vector* point) const = 0;
+
+    // Returns the computed parameter v for the object at the given point
+    virtual double findV(const Vector* point) const = 0;
+
 private:
     Vector* center;
     RGB* color;

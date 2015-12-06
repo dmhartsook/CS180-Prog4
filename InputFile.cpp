@@ -27,7 +27,7 @@ InputFile::InputFile(const char *filename) {
             this->objects.push_back(sphere);
 
             if (sphere->getTexture() != NULL) {
-                std::cerr << "Uh oh. Textures aren't implemented for spheres." << std::endl;
+                std::cerr << "Uh oh. Textures aren't working for spheres." << std::endl;
             }
         } else if (objectType.compare("plane") == 0) {
             Plane* plane = createPlane(file);
@@ -193,6 +193,7 @@ Plane * InputFile::createPlane(std::ifstream &file) {
     // Onto the next object so move backwards so that the outer loop can determine the object type
     file.seekg(-attribute.length(), file.cur);
 
+    color->print();
     Plane* plane = new Plane(xLength, yLength, center, color, normal, headup, reflectivity, texture);
 
     delete center;

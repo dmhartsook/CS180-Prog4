@@ -75,10 +75,16 @@ std::pair<const Vector *, const Object *> Ray::findIntersection(std::vector<cons
 
 RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, Scene scene, int depth) const {
     RGB* actualColor = new RGB(0, 0, 0);
+    const RGB* materialColor;
     if (object->getTexture() != NULL) {
-        // TODO
+        const Ppm *texturePpm = object->getTexture()->getPpm();
+        double u = object->findU(intersectionPoint);
+        double v = object->findV(intersectionPoint);
+        materialColor = texturePpm->getColor(u, v);
+    } else {
+         materialColor = object->getColor();
     }
-    const RGB* materialColor = object->getColor();
+
     Vector *normal = object->getNormal(intersectionPoint);
 
     for (int i = 0; i < scene.lights.size(); i++) {

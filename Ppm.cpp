@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <fstream>
 #include <iostream>
 #include "Ppm.h"
@@ -5,6 +6,13 @@
 
 Ppm::Ppm(const char *filename) {
     readInImage(filename);
+}
+
+Ppm::~Ppm() {
+    for (int i = 0; i < this->width; i++) {
+        delete[] this->image[i];
+    }
+    delete[] this->image;
 }
 
 void Ppm::writePpm(const ImagePlane *imagePlane, const char *filename) {
@@ -49,7 +57,7 @@ void Ppm::readInImage(const char *filename) {
     int height = std::atoi(height_s.c_str());
 
     unsigned char redChar, greenChar, blueChar;
-    int r, g, b;
+    double r, g, b;
 
     this->image = new RGB **[width];
     for (int i = 0; i < width; i++) {
@@ -60,9 +68,7 @@ void Ppm::readInImage(const char *filename) {
             imageFile >> blueChar;
 
             r = redChar; g = greenChar; b = blueChar;
-
-            std::cout << "r = " << r << ", g = " << g << ", b = " << b << std::endl;
-            this->image[i][j] = new RGB(0, 0, 0);
+            this->image[i][j] = new RGB(r / 255.0 , g / 255.0, b / 255.0);
         }
     }
 
@@ -70,4 +76,29 @@ void Ppm::readInImage(const char *filename) {
 
     this->width = width;
     this->height = height;
+}
+
+void Ppm::print() const {
+    for (int j = this->height - 1; j >= 0 ; j--) {
+        for (int i = 0; i < this->width; i++) {
+            this->image[i][j]->print();
+            std::cout << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+const RGB *Ppm::getColor(double u, double v) const {
+    assert(u >= 0 && v >= 0 && u <= 1 && v <= 1);
+    int x = u * this->width;
+    int y = v * this->height;
+    if (x == this->width) {
+        // TODO: figure out right thing to do
+        x--;
+    }
+    if (y == this->height) {
+        y--;
+    }
+    return this->image[x][y];
 }

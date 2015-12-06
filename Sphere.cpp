@@ -87,8 +87,8 @@ void Sphere::print() const {
     if (this->getColor() != NULL) {
         std::cout << "      color: ";
         this->getColor()->print();
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
     std::cout << "      radius: " << this->radius << std::endl;
     std::cout << "      reflectivity: " << this->getReflectivity() << std::endl;
     if (this->getTexture() != NULL) {

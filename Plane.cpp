@@ -98,3 +98,13 @@ Vector *Plane::intersect(const Ray *ray) const {
 Vector *Plane::getNormal(const Vector *point) const {
     return this->normal->clone();
 }
+
+double Plane::findU(const Vector *point) const {
+    std::cerr << "fineU for planes is not implemented yet." << std::cerr;
+    return 0;
+}
+
+double Plane::findV(const Vector *point) const {
+    std::cerr << "fineV for planes is not implemented yet." << std::cerr;
+    return 0;
+}

@@ -18,10 +18,11 @@ static const RGB BACKGROUND_COLOR(0, 0, 0);
 
 int main(int argc, char** argv) {
 
-    Ppm* ppm = new Ppm("examples/wood_tex.ppm");
-
-    delete ppm;
-    return 0;
+//    Ppm* ppm = new Ppm("examples/wood_tex.ppm");
+//    ppm->print();
+//
+//    delete ppm;
+//    return 0;
 
 
     Vector eye = Vector(0, 0, 0);

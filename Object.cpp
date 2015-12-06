@@ -5,23 +5,20 @@
 Object::Object(const Vector *centerVals, const RGB *color, double reflectivity, const Texture *texture) {
     assert(centerVals != NULL);
     if (color == NULL) {
-        // TODO: REMOVE THIS
-        color = new RGB(1,1,1);
         assert(texture != NULL);
+        this->texture = new Texture(*texture);
+        this->color = NULL;
+    } else if (texture == NULL) {
+        assert(color != NULL);
+        this->color = new RGB(*color);
+        this->texture = NULL;
     }
 
     Vector* center = new Vector(centerVals->toArray());
     this->center = center;
-    this->color = new RGB(*color);
 
     assert(reflectivity >= 0.0 && reflectivity <= 1);
     this->reflectivity = reflectivity;
-
-    if (texture == NULL) {
-        this->texture = NULL;
-    } else {
-        this->texture = new Texture(*texture);
-    }
 }
 
 Object::~Object() {
