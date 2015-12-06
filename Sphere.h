@@ -1,7 +1,3 @@
-//
-// Created by Deanna Hartsook on 11/20/15.
-//
-
 #ifndef CS180_PROG4_SPHERE_H
 #define CS180_PROG4_SPHERE_H
 
@@ -17,6 +13,12 @@ public:
 
     Vector * intersect(const Ray *) const;
     Vector*getNormal(const Vector *point) const;
+
+    // Returns the computed parameter u for the sphere at the given point
+    double findU(const Vector* point) const;
+
+    // Returns the computed parameter v for the sphere at the given point
+    double findV(const Vector* point) const;
 
     void print() const;
 

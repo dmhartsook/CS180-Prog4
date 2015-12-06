@@ -96,3 +96,27 @@ void Sphere::print() const {
         this->getTexture()->print();
     }
 }
+
+double Sphere::findU(const Vector *point)  const {
+    Vector* normal = getNormal(point);
+    normal->normalize();
+
+    // u = arctan(normalZ / normalX) / 2PI + 0.5
+    double u = atan2(normal->get(2), normal->get(0));
+    u /= (2 * M_PI);
+    u += 0.5;
+
+    delete normal;
+    return u;
+}
+
+double Sphere::findV(const Vector *point) const {
+    Vector* normal = getNormal(point);
+    normal->normalize();
+
+    // v = .5 − arcsin(normalY)/PI
+    double v = 0.5 - (asin(normal->get(1))) / M_PI;
+
+    delete normal;
+    return v;
+}

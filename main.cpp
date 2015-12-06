@@ -62,7 +62,21 @@ int main(int argc, char** argv) {
 //    const Sphere* sphere = new Sphere(sphereCenter, sphereColor, 1, 1);
 //    delete sphereColor;
 //    delete sphereCenter;
+//    Vector point(0, 0, -4);
+//    point.print();
+//    std::cout << "u: " << sphere->findU(&point) << std::endl;
+//    std::cout << "v: " << sphere->findV(&point) << std::endl;
 //
+//    point = Vector(0, 1, -5);
+//    point.print();
+//    std::cout << "u: " << sphere->findU(&point) << std::endl;
+//    std::cout << "v: " << sphere->findV(&point) << std::endl;
+//
+//    point = Vector(1, 0, -5);
+//    point.print();
+//    std::cout << "u: " << sphere->findU(&point) << std::endl;
+//    std::cout << "v: " << sphere->findV(&point) << std::endl;
+
 
 //    Vector* v1 = new Vector(1, 1, 0);
 //    Vector* v2 = new Vector(3, 0, 0);
