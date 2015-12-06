@@ -82,22 +82,8 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
     	const Vector* lightLocation = scene.lights[i]->getLocation();
         Ray *lightRay = new Ray(*intersectionPoint, *lightLocation);
         lightRay->moveStart(EPSILON); // Move out to prevent ray from incorrectly colliding with the object.
-
-        std::pair<const Vector *, const Object *> intersectionBlockingLight =
-        		lightRay->intersectObject(scene.objects);
-        const Vector* pointBlockingLight = intersectionBlockingLight.first;
-        const Object* objectBlockingLight = intersectionBlockingLight.second;
-
-        if (pointBlockingLight != NULL) {
-        	// Intersected an object on the way to the light but make sure the object isn't at the light
-        	// i.e. a light in a plane: the plane shouldn't prevent light from shining
-        	double distanceToLight = pointBlockingLight->distance(lightLocation);
-        	if (distanceToLight < EPSILON) {
-        		// Intersection at the light - pretend there was no intersection
-        		objectBlockingLight = NULL;
-        		pointBlockingLight = NULL;
-        	}
-        }
+        
+        const Object* objectBlockingLight = lightRay->intersectObject(scene.objects);
 
         if (objectBlockingLight == NULL ) { // Not in shadow
             double angle = normal->angleBetween(*lightRay);
@@ -132,16 +118,15 @@ RGB *Ray::determineColor(const Object *object, const Vector *intersectionPoint, 
     return actualColor;
 }
 
-std::pair<const Vector *, const Object *> Ray::intersectObject(std::vector<const Object *> &objects) const {
+const Object * Ray::intersectObject(std::vector<const Object *> &objects) const {
 	const Vector* intersectionPoint = NULL;
 
 	for (int i = 0; i < objects.size(); i++) {
         intersectionPoint = objects[i]->intersect(this);
         if (intersectionPoint != NULL) {
-            return std::make_pair(intersectionPoint, objects[i]);
+            return objects[i];
         }
     }
 
-	const Object* objectNull = NULL;
-    return std::make_pair(intersectionPoint, objectNull);
+    return NULL;
 }
