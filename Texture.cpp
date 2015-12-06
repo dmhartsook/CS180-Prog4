@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include "Texture.h"
 
 Texture::Texture(const char *filename) {

@@ -3,7 +3,7 @@ SOURCES = main.cpp Vector.cpp Ray.cpp ImagePlane.cpp Sphere.cpp Object.cpp RGB.c
  Texture.cpp Ppm.cpp
 
 raytracer: $(SOURCES)
-	$(CC) -o raytracer $(SOURCES)
+	$(CC) -o raytracer $(SOURCES) -std=c++11
 
 clean:
 	rm -f *.o raytracer examples/*.ppm

@@ -100,11 +100,11 @@ Vector *Plane::getNormal(const Vector *point) const {
 }
 
 double Plane::findU(const Vector *point) const {
-    std::cerr << "fineU for planes is not implemented yet." << std::cerr;
+    std::cerr << "fineU for planes is not implemented yet." << std::endl;
     return 0;
 }
 
 double Plane::findV(const Vector *point) const {
-    std::cerr << "fineV for planes is not implemented yet." << std::cerr;
+    std::cerr << "fineV for planes is not implemented yet." << std::endl;
     return 0;
 }
