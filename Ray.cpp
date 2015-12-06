@@ -140,7 +140,7 @@ RGB *Ray::getColorFromLight(const RGB *materialColor, const Vector *normal, cons
 
     RGB *colorFromLight = new RGB(*materialColor);
     // if cos(angle) < 0 then in shadow so multiply by 0
-    colorFromLight->multiply(std::__1::max(0.0, cos(angle)));
+    colorFromLight->multiply(std::max(0.0, cos(angle)));
     colorFromLight->multiply(light->getColor());
     return colorFromLight;
 }
