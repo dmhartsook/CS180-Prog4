@@ -51,6 +51,15 @@ private:
      * Returns a new RGB object that must be destroyed.
      */
     RGB *determineColor(const Object *object, const Vector *intersectionPoint, Scene scene, int depth) const;
+
+    /*
+     * Returns a new RGB pointer representing the color of the material caused by the passed light.
+     */
+    RGB *getColorFromLight(const RGB *materialColor, const Vector *normal, const Ray *lightRay, const Light *const &light) const;
+
+    RGB* getColorFromReflection(const Vector* normal, const Vector* intersectionPoint, Scene& scene, int depth) const;
+
+    Ray *getLightRay(const Vector *intersectionPoint, const Light *const &light) const;
 };
 
 
