@@ -25,9 +25,17 @@ InputFile::InputFile(const char *filename) {
         if (objectType.compare("sphere") == 0) {
             Sphere* sphere = createSphere(file);
             this->objects.push_back(sphere);
+
+            if (sphere->getTexture() != NULL) {
+                std::cerr << "Uh oh. Textures aren't implemented for spheres." << std::endl;
+            }
         } else if (objectType.compare("plane") == 0) {
             Plane* plane = createPlane(file);
             this->objects.push_back(plane);
+
+            if (plane->getTexture() != NULL) {
+                std::cerr << "Uh oh. Textures aren't implemented for planes." << std::endl;
+            }
         } else if (objectType.compare("light") == 0) {
             Light* light = createLight(file);
             this->lights.push_back(light);

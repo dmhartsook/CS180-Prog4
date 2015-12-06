@@ -6,7 +6,7 @@ Object::Object(const Vector *centerVals, const RGB *color, double reflectivity, 
     assert(centerVals != NULL);
     if (color == NULL) {
         // TODO: REMOVE THIS
-        color = new RGB(0,0,0);
+        color = new RGB(1,1,1);
         assert(texture != NULL);
     }
 
