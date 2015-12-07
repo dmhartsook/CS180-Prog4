@@ -194,7 +194,6 @@ Plane * InputFile::createPlane(std::ifstream &file) {
     // Onto the next object so move backwards so that the outer loop can determine the object type
     file.seekg(-attribute.length(), file.cur);
 
-    color->print();
     Plane* plane = new Plane(xLength, yLength, center, color, normal, headup, reflectivity, texture);
 
     delete center;
