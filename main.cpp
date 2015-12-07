@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include "ImagePlane.h"
